@@ -670,134 +670,6 @@ training/meta/<id>.json
 - `tight-fit` 會退回一般的 `(x, y, z)` 最佳化。
 - 也可使用 `--fixed_ground_y` 指定固定 bottom-center Y。
 
----
-
-## 14. 第一次執行前的檢查
-
-### 14.1 語法檢查
-
-```bash
-python -m compileall -q \
-  gemo3d.py \
-  submodule \
-  egonet_ori.py \
-  deep3d_head.py \
-  vehicletype_head.py
-```
-
-### 14.2 主程式 help
-
-```bash
-python gemo3d.py --help
-```
-
-若這一步失敗，先不要執行正式資料集。
-
-### 14.3 修正目前 smoke test 的舊套件名稱
-
-目前 `tests/smoke_test.py` 仍引用 `gemo3d_ncomp`。可先備份並替換：
-
-```bash
-cp tests/smoke_test.py /tmp/smoke_test.py.bak
-sed -i 's/gemo3d_ncomp/submodule/g' tests/smoke_test.py
-python tests/smoke_test.py
-```
-
-成功時應看到：
-
-```text
-SMOKE_TEST_OK
-```
-
-若不希望保留修改：
-
-```bash
-git restore tests/smoke_test.py
-```
-
-### 14.4 檢查 EgoNet import
-
-```bash
-source scripts/env.sh 2>/dev/null || true
-
-python - <<'PY'
-import os
-import sys
-
-root = os.environ.get("EGONET_ROOT")
-if not root:
-    raise RuntimeError("EGONET_ROOT is not set")
-
-sys.path.insert(0, root)
-from libs.model.egonet import EgoNet
-
-print("EgoNet import OK")
-PY
-```
-
----
-
-## 15. 最小流程測試
-
-這個版本的目的是確認：
-
-- 能讀取 KITTI split。
-- 能讀取影像與 calibration。
-- YOLO 可以推論。
-- 可以輸出 KITTI prediction。
-
-它不使用 EgoNet、不使用補償模型，所有車輛 `ry` 會退回 `0`，因此不能視為完整 GEMO3D 精度。
-
-### 15.1 GPU
-
-```bash
-KITTI_ROOT=/path/to/KITTI_ROOT
-OUT=/path/to/outputs/gemo3d_baseline
-
-python gemo3d.py \
-  --kitti_root "$KITTI_ROOT" \
-  --split val \
-  --out_dir "$OUT" \
-  --yolo_weights weights/yolo11n.pt \
-  --no_egonet \
-  --dims_source fixed \
-  --fixed_dims_hwl 1.55,1.74,3.86 \
-  --height_m 1.55 \
-  --comp_pkl "" \
-  --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-" \
-  --conf 0.25 \
-  --imgsz 640 \
-  --device cuda:0 \
-  --half \
-  --pred_meta_csv "$OUT/pred_meta.csv"
-```
-
-### 15.2 CPU
-
-CPU 不要加 `--half`：
-
-```bash
-KITTI_ROOT=/path/to/KITTI_ROOT
-OUT=/path/to/outputs/gemo3d_cpu
-
-python gemo3d.py \
-  --kitti_root "$KITTI_ROOT" \
-  --split val \
-  --out_dir "$OUT" \
-  --yolo_weights weights/yolo11n.pt \
-  --no_egonet \
-  --dims_source fixed \
-  --fixed_dims_hwl 1.55,1.74,3.86 \
-  --height_m 1.55 \
-  --comp_pkl "" \
-  --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-" \
-  --conf 0.25 \
-  --imgsz 640 \
-  --device cpu \
-  --pred_meta_csv "$OUT/pred_meta.csv"
-```
-
----
 
 ## 16. 完整 GEMO3D 推論
 
@@ -1171,31 +1043,12 @@ PY
 
 ## 21. 常見錯誤與排除方式
 
-### 21.1 找不到 `nearest_time_topbev_ncomp.py`
 
-錯誤原因：目前入口已更名。
-
-正確：
-
-```bash
-python gemo3d.py --help
-```
-
-### 21.2 `No module named 'gemo3d_ncomp'`
-
-目前套件已更名為 `submodule`。
-
-主程式不需修改；若是 smoke test，執行：
-
-```bash
-sed -i 's/gemo3d_ncomp/submodule/g' tests/smoke_test.py
-```
-
-### 21.3 `No module named 'torch'`
+### 21.1 `No module named 'torch'`
 
 先安裝 PyTorch。即使使用 `--no_egonet`，目前模組匯入仍需要 torch。
 
-### 21.4 `Cannot import 'libs.model.egonet'`
+### 21.2 `Cannot import 'libs.model.egonet'`
 
 確認：
 
@@ -1210,7 +1063,7 @@ export EGONET_CFG="$PWD/EgoNet-master/configs/KITTI_inference:test_submission.ym
 test -f "$EGONET_ROOT/libs/model/egonet.py"
 ```
 
-### 21.5 找不到 EgoNet config
+### 21.3 找不到 EgoNet config
 
 明確指定：
 
@@ -1220,7 +1073,7 @@ export EGONET_CFG="$PWD/EgoNet-master/configs/KITTI_inference:test_submission.ym
 
 注意檔名中包含冒號 `:`，shell 仍可正常處理，建議加雙引號。
 
-### 21.6 EgoNet checkpoint 載入失敗
+### 21.4 EgoNet checkpoint 載入失敗
 
 確認 `--egonet_weights` 指向的是目錄，而不是單一 `.pth`：
 
@@ -1228,30 +1081,8 @@ export EGONET_CFG="$PWD/EgoNet-master/configs/KITTI_inference:test_submission.ym
 ls -lah weights/egonet
 ```
 
-### 21.7 出現開發者主機的 `/home/e114/...pkl` 警告
 
-明確覆寫或停用四車型模型：
 
-```bash
---vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-"
-```
-
-### 21.8 所有 prediction 都是空白
-
-檢查：
-
-1. YOLO 權重是否正確。
-2. `--conf` 是否過高。
-3. `--car_names` 是否符合模型類別名稱。
-4. 影像是否可讀。
-5. 影像中是否真的有車輛。
-
-嘗試：
-
-```bash
---conf 0.25 \
---car_names car,vehicle,truck,bus
-```
 
 ### 21.9 `Missing image`
 
@@ -1319,112 +1150,8 @@ pip uninstall -y opencv-python
 pip install opencv-python-headless
 ```
 
-### 21.14 NumPy pickle 相容問題
 
-目前程式已有 `numpy._core` 相容 shim。若仍失敗：
 
-- 在建立模型與推論時使用相同 NumPy 主版本。
-- 重新輸出 `.pkl`。
-- 不要任意對不可信 `.pkl` 執行反序列化。
-
-### 21.15 `--max_images` 或 `--continue_on_error` 不支援
-
-目前 CLI 沒有這兩個參數。不要加入：
-
-```text
---max_images
---continue_on_error
-```
-
-需限制影像數量時，建立小型 split，方式見下一節。
-
-### 21.16 `unrecognized arguments`
-
-先確認目前版本支援的參數：
-
-```bash
-python gemo3d.py --help
-```
-
-不要直接複製舊版 `nearest_time_topbev_ncomp.py` 的所有參數。
-
----
-
-## 22. 建立小型測試 split
-
-先取 `val.txt` 的前 10 張：
-
-```bash
-head -n 10 \
-  "$KITTI_ROOT/ImageSets/val.txt" \
-  > "$KITTI_ROOT/ImageSets/debug10.txt"
-```
-
-執行：
-
-```bash
-python gemo3d.py \
-  --kitti_root "$KITTI_ROOT" \
-  --split debug10 \
-  --out_dir "$OUT/debug10" \
-  ...
-```
-
-隨機取 20 張：
-
-```bash
-shuf "$KITTI_ROOT/ImageSets/val.txt" \
-  | head -n 20 \
-  > "$KITTI_ROOT/ImageSets/debug20.txt"
-```
-
-建議先成功執行 5～20 張，再跑完整資料集。
-
----
-
-## 23. 資源不足時的安全設定
-
-推薦的低資源測試設定：
-
-```bash
-python gemo3d.py \
-  --kitti_root "$KITTI_ROOT" \
-  --split debug10 \
-  --out_dir "$OUT/debug10" \
-  --yolo_weights weights/yolo11n.pt \
-  --no_egonet \
-  --dims_source fixed \
-  --fixed_dims_hwl 1.55,1.74,3.86 \
-  --height_m 1.55 \
-  --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-" \
-  --conf 0.25 \
-  --imgsz 640 \
-  --device cuda:0 \
-  --half \
-  --pred_meta_csv "$OUT/debug10/pred_meta.csv"
-```
-
-避免同時：
-
-- 執行多個資料集。
-- 開啟大量視覺化。
-- 使用大型 YOLO。
-- 使用多個車型分類器。
-- 將 `tightfit_max_nfev` 設得非常大。
-
-建議監控：
-
-```bash
-watch -n 1 nvidia-smi
-```
-
-系統記憶體：
-
-```bash
-watch -n 1 free -h
-```
-
----
 
 ## 24. 正式實驗的建議設定
 
@@ -1521,62 +1248,6 @@ chmod +x run_gemo3d.sh
 ./run_gemo3d.sh
 ```
 
----
-
-## 25. 環境備份與移植
-
-### 25.1 匯出 Conda 環境
-
-完整匯出：
-
-```bash
-conda env export -n gemo3d > environment-gemo3d.yml
-```
-
-較精簡、只保留手動安裝項目：
-
-```bash
-conda env export -n gemo3d --from-history > environment-gemo3d-history.yml
-```
-
-### 25.2 在另一台主機重建
-
-```bash
-conda env create -f environment-gemo3d.yml
-conda activate gemo3d
-```
-
-注意：
-
-- 不同 GPU、driver 或 CUDA 環境可能需要重新安裝 PyTorch。
-- 權重、資料集與 `.pkl` 不會包含在 Conda 環境中，需另外複製。
-- `EGONET_ROOT` 與 `EGONET_CFG` 需依新路徑重新設定。
-
-### 25.3 使用 conda-pack 原封不動搬移
-
-來源主機：
-
-```bash
-conda install -n base -c conda-forge conda-pack -y
-conda pack -n gemo3d -o gemo3d.tar.gz
-```
-
-目標主機：
-
-```bash
-mkdir -p ~/conda_envs/gemo3d
-tar -xzf gemo3d.tar.gz -C ~/conda_envs/gemo3d
-source ~/conda_envs/gemo3d/bin/activate
-conda-unpack
-```
-
-跨不同 CUDA／driver 主機時仍需重新確認：
-
-```bash
-python -c "import torch; print(torch.cuda.is_available())"
-```
-
----
 
 ## 26. 專案結構
 
