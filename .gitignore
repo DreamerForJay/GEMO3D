@@ -1,8 +1,4 @@
 __pycache__/
 *.py[cod]
-*.pt
-*.pth
-*.onnx
-*.pkl
 outputs/
 pred_meta.csv
