@@ -1,0 +1,9 @@
+numpy
+scipy
+opencv-python
+ultralytics
+# Install PyTorch/torchvision separately to match your CUDA version.
+# Optional vehicle classifier backends:
+# onnxruntime-gpu
+# paddlepaddle-gpu
+# paddleclas
