@@ -5,31 +5,30 @@
 ## 目錄
 
 1. [GEMO3D 是什麼](#1-gemo3d-是什麼)
-2. [整體推論流程](#3-整體推論流程)
-3. [硬體與軟體需求](#4-硬體與軟體需求)
-4. [下載專案](#5-下載專案)
-6. [建立 Python 環境](#6-建立-python-環境)
-7. [確認 PyTorch 與 CUDA](#7-確認-pytorch-與-cuda)
-8. [準備 YOLO 權重](#8-準備-yolo-權重)
-9. [準備 EgoNet](#9-準備-egonet)
-10. [準備 Deep3DBox（可選）](#10-準備-deep3dbox可選)
-11. [準備車型分類器（可選）](#11-準備車型分類器可選)
-12. [準備深度補償模型](#12-準備深度補償模型)
-13. [準備 KITTI 格式資料集](#13-準備-kitti-格式資料集)
-14. [第一次執行前的檢查](#14-第一次執行前的檢查)
-15. [最小流程測試](#15-最小流程測試)
-16. [完整 GEMO3D 推論](#16-完整-gemo3d-推論)
-17. [多車型推論](#17-多車型推論)
-18. [主要參數說明](#18-主要參數說明)
-19. [輸出檔案說明](#19-輸出檔案說明)
-20. [如何檢查推論是否成功](#20-如何檢查推論是否成功)
-21. [常見錯誤與排除方式](#21-常見錯誤與排除方式)
-22. [建立小型測試 split](#22-建立小型測試-split)
-23. [資源不足時的安全設定](#23-資源不足時的安全設定)
-24. [正式實驗的建議設定](#24-正式實驗的建議設定)
-25. [環境備份與移植](#25-環境備份與移植)
-26. [專案結構](#26-專案結構)
-27. [快速檢查清單](#27-快速檢查清單)
+2. [整體推論流程](#2-整體推論流程)
+3. [硬體與軟體需求](#3-硬體與軟體需求)
+4. [下載專案](#4-下載專案)
+5. [建立 Python 環境](#5-建立-python-環境)
+6. [確認 PyTorch 與 CUDA](#6-確認-pytorch-與-cuda)
+7. [準備 YOLO 權重](#7-準備-yolo-權重)
+8. [準備 EgoNet](#8-準備-egonet)
+9. [準備 Deep3DBox（可選）](#9-準備-deep3dbox可選)
+10. [準備車型分類器（可選）](#10-準備車型分類器可選)
+11. [準備深度補償模型](#11-準備深度補償模型)
+12. [準備 KITTI 格式資料集](#12-準備-kitti-格式資料集)
+13. [第一次執行前的檢查](#13-第一次執行前的檢查)
+14. [最小流程測試](#14-最小流程測試)
+15. [完整 GEMO3D 推論](#15-完整-gemo3d-推論)
+16. [多車型推論](#16-多車型推論)
+17. [主要參數說明](#17-主要參數說明)
+18. [輸出檔案說明](#18-輸出檔案說明)
+19. [如何檢查推論是否成功](#19-如何檢查推論是否成功)
+20. [常見錯誤與排除方式](#20-常見錯誤與排除方式)
+21. [建立小型測試 split](#21-建立小型測試-split)
+22. [資源不足時的安全設定](#22-資源不足時的安全設定)
+23. [正式實驗的建議設定](#23-正式實驗的建議設定)
+24. [環境備份與移植](#24-環境備份與移植)
+25. [專案結構](#25-專案結構)
 
 ---
 
@@ -109,7 +108,7 @@ KITTI 3D prediction
   - 補償模型。
   - 推論輸出。
 
-### 4.2 建議需求
+### 3.2 建議需求
 
 - Ubuntu 20.04、22.04 或相近版本。
 - NVIDIA GPU。
@@ -118,7 +117,7 @@ KITTI 3D prediction
 - Conda 或 Miniconda。
 
 
-## 5. 下載專案
+## 4. 下載專案
 
 ```bash
 cd ~/Desktop
@@ -145,7 +144,7 @@ conda activate gemo3d
 python -m pip install --upgrade pip setuptools wheel
 ```
 
-### 6.2 先安裝 PyTorch
+### 5.2 先安裝 PyTorch
 
 PyTorch 必須先依照主機的 NVIDIA driver 與 CUDA 相容情況安裝。請使用 PyTorch 官方安裝選擇器產生適合本機的指令：
 
@@ -157,7 +156,7 @@ PyTorch 必須先依照主機的 NVIDIA driver 與 CUDA 相容情況安裝。請
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 ```
 
-### 6.3 安裝 GEMO3D 基本套件
+### 5.3 安裝 GEMO3D 基本套件
 
 ```bash
 pip install -r requirements.txt
@@ -169,7 +168,7 @@ pip install -r requirements.txt
 pip install pandas openpyxl
 ```
 
-### 6.4 無圖形介面的伺服器
+### 5.4 無圖形介面的伺服器
 
 若在沒有桌面環境的伺服器遇到：
 
@@ -186,7 +185,7 @@ pip install opencv-python-headless
 
 ---
 
-## 7. 確認 PyTorch 與 CUDA
+## 6. 確認 PyTorch 與 CUDA
 
 執行：
 
@@ -223,9 +222,9 @@ PY
 
 ---
 
-## 8. 準備 YOLO 權重
+## 7. 準備 YOLO 權重
 
-### 8.1 快速測試
+### 7.1 快速測試
 
 
 第一次執行時，Ultralytics 通常會直接嘗試下載公開權重。若主機無法連線，請先在可連網主機下載，再複製到專案，例如：
@@ -242,7 +241,7 @@ GEMO3D/
 --yolo_weights weights/yolo11n.pt
 ```
 
-### 8.2 正式實驗
+### 7.2 正式實驗
 
 若有足夠 GPU 記憶體，可用較大的權重，例如：
 
@@ -254,7 +253,7 @@ yolo11l.pt
 
 ---
 
-## 9. 準備 EgoNet
+## 8. 準備 EgoNet
 
 目前儲存庫已包含：
 
@@ -264,7 +263,7 @@ EgoNet-master/
 
 因此不需要再次 clone 官方 EgoNet 原始碼，但仍需要準備其預訓練權重。
 
-### 9.1 下載預訓練權重
+### 8.1 下載預訓練權重
 
 依 `EgoNet-master/docs/preparation.md` 的預訓練模型連結下載並解壓縮。建議放置為：
 
@@ -280,7 +279,7 @@ GEMO3D/
 
 實際檔案名稱應以官方壓縮檔內容為準。
 
-### 9.2 設定環境變數
+### 8.2 設定環境變數
 
 在 GEMO3D 根目錄執行：
 
@@ -300,7 +299,7 @@ test -f "$EGONET_CFG" && echo "EgoNet config OK"
 
 
 
-### 9.3 每次開啟終端機都自動設定
+### 8.3 每次開啟終端機都自動設定
 
 可建立：
 
@@ -318,7 +317,7 @@ EOF
 source scripts/env.sh
 ```
 
-### 9.5 使用 EgoNet 輸出尺寸
+### 8.4 使用 EgoNet 輸出尺寸
 
 預設建議只使用 EgoNet 朝向，尺寸使用固定值或車型先驗。
 
@@ -346,7 +345,7 @@ unset EGONET_DIMS_FALLBACK_HWL
 
 ---
 
-## 10. 準備 Deep3DBox（可選）
+## 9. 準備 Deep3DBox（可選）
 
 Deep3DBox 不是目前GEMO3D項目。只有在命令改用Deep3DBox預測：
 
@@ -392,7 +391,7 @@ PY
 
 ---
 
-## 11. 準備車型分類器（可選）
+## 10. 準備車型分類器（可選）
 
 GEMO3D 支援四種設定：
 
@@ -403,7 +402,7 @@ GEMO3D 支援四種設定：
 | `ort` | 使用 ONNXRuntime VehicleTypeNet |
 | `paddleclas` | 使用 PaddleClas vehicle attribute |
 
-### 11.1 YOLO classification
+### 10.1 YOLO classification
 
 模型結構範例：
 
@@ -439,7 +438,7 @@ van=suv
 --vehclf_yolo_label_map "hatchback=compact,pickup=compact,sedan=sedan,suv=suv,van=van"
 ```
 
-### 11.2 ONNXRuntime
+### 10.2 ONNXRuntime
 
 GPU：
 
@@ -460,7 +459,7 @@ pip install onnxruntime
 --vehclf_ort_onnx weights/resnet18_pruned.onnx
 ```
 
-### 11.3 PaddleClas
+### 10.3 PaddleClas
 
 依主機 CUDA 版本安裝 PaddlePaddle，再安裝：
 
@@ -477,7 +476,7 @@ pip install paddleclas
 
 ---
 
-## 12. 準備深度補償模型
+## 11. 準備深度補償模型
 
 補償模型通常是 `.pkl`。
 
@@ -492,13 +491,13 @@ GEMO3D/
     └── van_rank_ratio_linear_model.pkl
 ```
 
-### 12.1 全域單一模型
+### 11.1 全域單一模型
 
 ```bash
 --comp_pkl models/sedan_rank_ratio_linear_model.pkl
 ```
 
-### 12.2 各車型模型
+### 11.2 各車型模型
 
 ```bash
 --vt_comp_pkl_map \
@@ -514,7 +513,7 @@ van=models/van_rank_ratio_linear_model.pkl"
 --vt_comp_pkl_map "compact=models/compact_rank_ratio_linear_model.pkl,sedan=models/sedan_rank_ratio_linear_model.pkl,suv=models/suv_rank_ratio_linear_model.pkl,van=models/van_rank_ratio_linear_model.pkl"
 ```
 
-### 12.3 停用所有車型專屬模型
+### 11.3 停用所有車型專屬模型
 
 目前 `submodule/config.py` 仍保留預設絕對路徑。其他主機執行時可能看到：
 
@@ -530,7 +529,7 @@ van=models/van_rank_ratio_linear_model.pkl"
 --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-"
 ```
 
-### 12.4 已知整組資料為單一車型
+### 11.4 已知整組資料為單一車型
 
 例如全部都是 sedan，強制轉型為統一車型：
 
@@ -550,9 +549,9 @@ van
 
 ---
 
-## 13. 準備 KITTI 格式資料集
+## 12. 準備 KITTI 格式資料集
 
-### 13.1 必要結構
+### 12.1 必要結構
 
 ```text
 KITTI_ROOT/
@@ -574,7 +573,7 @@ KITTI_ROOT/
     └── side_iou/         # 可選
 ```
 
-### 13.2 split 格式
+### 12.2 split 格式
 
 `ImageSets/val.txt`：
 
@@ -593,7 +592,7 @@ KITTI_ROOT/
 
 程式會自動取檔名 stem。
 
-### 13.3 影像限制
+### 12.3 影像限制
 
 目前程式會固定尋找：
 
@@ -623,7 +622,7 @@ print(dst)
 PY
 ```
 
-### 13.4 calibration 檔案
+### 12.4 calibration 檔案
 
 每張影像都必須有同名 calibration：
 
@@ -639,7 +638,7 @@ P2: 721.5377 0.0 609.5593 0.0 0.0 721.5377 172.8540 0.0 0.0 0.0 1.0 0.0
 
 上述數值只是常見 KITTI 範例。正式推論必須使用該影像實際相機的 calibration，否則深度與 3D 位置不具物理意義。
 
-### 13.5 label_2
+### 12.5 label_2
 
 純推論不需要 `label_2`。以下功能才會使用真值：
 
@@ -654,7 +653,7 @@ P2: 721.5377 0.0 609.5593 0.0 0.0 721.5377 172.8540 0.0 0.0 0.0 1.0 0.0
 
 正式 monocular 3D 推論與公平比較時，不應啟用 GT 輔助參數。
 
-### 13.6 CARLA meta
+### 12.6 CARLA meta
 
 若存在：
 
@@ -670,12 +669,140 @@ training/meta/<id>.json
 - `tight-fit` 會退回一般的 `(x, y, z)` 最佳化。
 - 也可使用 `--fixed_ground_y` 指定固定 bottom-center Y。
 
+---
 
-## 16. 完整 GEMO3D 推論
+## 13. 第一次執行前的檢查
+
+### 13.1 語法檢查
+
+```bash
+python -m compileall -q \
+  gemo3d.py \
+  submodule \
+  egonet_ori.py \
+  deep3d_head.py \
+  vehicletype_head.py
+```
+
+### 13.2 主程式 help
+
+```bash
+python gemo3d.py --help
+```
+
+若這一步失敗，先不要執行正式資料集。
+
+### 13.3 修正目前 smoke test 的舊套件名稱
+
+目前 `tests/smoke_test.py` 仍引用 `gemo3d_ncomp`。可先備份並替換：
+
+```bash
+cp tests/smoke_test.py /tmp/smoke_test.py.bak
+sed -i 's/gemo3d_ncomp/submodule/g' tests/smoke_test.py
+python tests/smoke_test.py
+```
+
+成功時應看到：
+
+```text
+SMOKE_TEST_OK
+```
+
+若不希望保留修改：
+
+```bash
+git restore tests/smoke_test.py
+```
+
+### 13.4 檢查 EgoNet import
+
+```bash
+source scripts/env.sh 2>/dev/null || true
+
+python - <<'PY'
+import os
+import sys
+
+root = os.environ.get("EGONET_ROOT")
+if not root:
+    raise RuntimeError("EGONET_ROOT is not set")
+
+sys.path.insert(0, root)
+from libs.model.egonet import EgoNet
+
+print("EgoNet import OK")
+PY
+```
+
+---
+
+## 14. 最小流程測試
+
+這個版本的目的是確認：
+
+- 能讀取 KITTI split。
+- 能讀取影像與 calibration。
+- YOLO 可以推論。
+- 可以輸出 KITTI prediction。
+
+它不使用 EgoNet、不使用補償模型，所有車輛 `ry` 會退回 `0`，因此不能視為完整 GEMO3D 精度。
+
+### 14.1 GPU
+
+```bash
+KITTI_ROOT=/path/to/KITTI_ROOT
+OUT=/path/to/outputs/gemo3d_baseline
+
+python gemo3d.py \
+  --kitti_root "$KITTI_ROOT" \
+  --split val \
+  --out_dir "$OUT" \
+  --yolo_weights weights/yolo11n.pt \
+  --no_egonet \
+  --dims_source fixed \
+  --fixed_dims_hwl 1.55,1.74,3.86 \
+  --height_m 1.55 \
+  --comp_pkl "" \
+  --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-" \
+  --conf 0.25 \
+  --imgsz 640 \
+  --device cuda:0 \
+  --half \
+  --pred_meta_csv "$OUT/pred_meta.csv"
+```
+
+### 14.2 CPU
+
+CPU 不要加 `--half`：
+
+```bash
+KITTI_ROOT=/path/to/KITTI_ROOT
+OUT=/path/to/outputs/gemo3d_cpu
+
+python gemo3d.py \
+  --kitti_root "$KITTI_ROOT" \
+  --split val \
+  --out_dir "$OUT" \
+  --yolo_weights weights/yolo11n.pt \
+  --no_egonet \
+  --dims_source fixed \
+  --fixed_dims_hwl 1.55,1.74,3.86 \
+  --height_m 1.55 \
+  --comp_pkl "" \
+  --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-" \
+  --conf 0.25 \
+  --imgsz 640 \
+  --device cpu \
+  --pred_meta_csv "$OUT/pred_meta.csv"
+```
+
+---
+
+## 15. 完整 GEMO3D 推論
 
 以下以整組 sedan CARLA 資料為例。
 
-### 16.1 設定路徑
+### 15.1 設定路徑
 
 ```bash
 cd ~/Desktop/GEMO3D
@@ -690,7 +817,7 @@ EGONET_WEIGHTS="$PWD/weights/egonet"
 COMP_MODEL="$PWD/models/sed_rank_ratio_linear_model.pkl"
 ```
 
-### 16.2 執行
+### 15.2 執行
 
 ```bash
 python gemo3d.py \
@@ -716,7 +843,7 @@ python gemo3d.py \
   --pred_meta_csv "$OUT/pred_meta.csv"
 ```
 
-### 16.3 參數含義
+### 15.3 參數含義
 
 - `--egonet_weights`：EgoNet checkpoint 目錄。
 - `--dims_source fixed`：使用固定或車型尺寸先驗。
@@ -729,7 +856,7 @@ python gemo3d.py \
 
 ---
 
-## 17. 多車型推論
+## 16. 多車型推論
 
 以 YOLO classification 為例：
 
@@ -775,9 +902,9 @@ python gemo3d.py \
 
 ---
 
-## 18. 主要參數說明
+## 17. 主要參數說明
 
-### 18.1 資料與輸出
+### 17.1 資料與輸出
 
 | 參數 | 說明 | 預設 |
 |---|---|---|
@@ -787,7 +914,7 @@ python gemo3d.py \
 | `--pred_meta_csv` | 中間量 CSV 路徑；空字串可關閉 | `pred_meta.csv` |
 | `--vis_dir` | 視覺化輸出目錄；空字串關閉 | 空 |
 
-### 18.2 YOLO
+### 17.2 YOLO
 
 | 參數 | 說明 | 預設 |
 |---|---|---|
@@ -808,7 +935,7 @@ yolo11n.pt
 
 開始，再逐步增加模型與影像尺寸。
 
-### 18.3 朝向與尺寸
+### 17.3 朝向與尺寸
 
 | 參數 | 說明 |
 |---|---|
@@ -830,7 +957,7 @@ yolo11n.pt
 | suv | `(1.65, 1.78, 4.40)` |
 | van | `(2.05, 1.92, 5.10)` |
 
-### 18.4 補償
+### 17.4 補償
 
 | 參數 | 說明 |
 |---|---|
@@ -842,7 +969,7 @@ yolo11n.pt
 | `--van_comp_pkl` | van 單獨覆寫 |
 | `--force_veh_type` | 強制所有偵測為同一車型 |
 
-### 18.5 投影修正
+### 17.5 投影修正
 
 `--proj_center_source` 可選：
 
@@ -862,7 +989,7 @@ yolo11n.pt
 --proj_refine_iters 3
 ```
 
-### 18.6 tight-fit
+### 17.6 tight-fit
 
 | 參數 | 說明 |
 |---|---|
@@ -873,9 +1000,9 @@ yolo11n.pt
 
 ---
 
-## 19. 輸出檔案說明
+## 18. 輸出檔案說明
 
-### 19.1 KITTI prediction
+### 18.1 KITTI prediction
 
 輸出位置：
 
@@ -908,7 +1035,7 @@ Car 0.00 0 0.123456 500.00 120.00 700.00 300.00 1.52 1.64 3.86 0.10 1.65 20.00 0
 
 某張影像沒有任何偵測時，程式仍會建立空白 `.txt`。這是正常行為，方便 KITTI evaluator 對齊所有影像 ID。
 
-### 19.2 pred_meta.csv
+### 18.2 pred_meta.csv
 
 建議設定：
 
@@ -935,7 +1062,7 @@ Car 0.00 0 0.123456 500.00 120.00 700.00 300.00 1.52 1.64 3.86 0.10 1.65 20.00 0
 | `ry_init/ry_final` | 朝向角變化 |
 | `used_ground_y` | 是否使用地面 Y |
 
-### 19.3 視覺化
+### 18.3 視覺化
 
 啟用：
 
@@ -961,9 +1088,9 @@ Car 0.00 0 0.123456 500.00 120.00 700.00 300.00 1.52 1.64 3.86 0.10 1.65 20.00 0
 
 ---
 
-## 20. 如何檢查推論是否成功
+## 19. 如何檢查推論是否成功
 
-### 20.1 prediction 數量是否與 split 一致
+### 19.1 prediction 數量是否與 split 一致
 
 ```bash
 wc -l "$KITTI_ROOT/ImageSets/val.txt"
@@ -972,7 +1099,7 @@ find "$OUT/pred/data" -maxdepth 1 -name '*.txt' | wc -l
 
 兩者應相同。
 
-### 20.2 查看第一個非空結果
+### 19.2 查看第一個非空結果
 
 ```bash
 find "$OUT/pred/data" -type f -size +0c | sort | head
@@ -986,7 +1113,7 @@ echo "$FIRST"
 cat "$FIRST"
 ```
 
-### 20.3 檢查每行欄位數
+### 19.3 檢查每行欄位數
 
 KITTI prediction 含 score 時每行應有 16 欄：
 
@@ -1012,7 +1139,7 @@ for row in bad[:20]:
 PY
 ```
 
-### 20.4 檢查 feedback 是否生效
+### 19.4 檢查 feedback 是否生效
 
 ```bash
 python - "$OUT/pred_meta.csv" <<'PY'
@@ -1041,14 +1168,33 @@ PY
 
 ---
 
-## 21. 常見錯誤與排除方式
+## 20. 常見錯誤與排除方式
 
+### 20.1 找不到 `nearest_time_topbev_ncomp.py`
 
-### 21.1 `No module named 'torch'`
+錯誤原因：目前入口已更名。
+
+正確：
+
+```bash
+python gemo3d.py --help
+```
+
+### 20.2 `No module named 'gemo3d_ncomp'`
+
+目前套件已更名為 `submodule`。
+
+主程式不需修改；若是 smoke test，執行：
+
+```bash
+sed -i 's/gemo3d_ncomp/submodule/g' tests/smoke_test.py
+```
+
+### 20.3 `No module named 'torch'`
 
 先安裝 PyTorch。即使使用 `--no_egonet`，目前模組匯入仍需要 torch。
 
-### 21.2 `Cannot import 'libs.model.egonet'`
+### 20.4 `Cannot import 'libs.model.egonet'`
 
 確認：
 
@@ -1063,7 +1209,7 @@ export EGONET_CFG="$PWD/EgoNet-master/configs/KITTI_inference:test_submission.ym
 test -f "$EGONET_ROOT/libs/model/egonet.py"
 ```
 
-### 21.3 找不到 EgoNet config
+### 20.5 找不到 EgoNet config
 
 明確指定：
 
@@ -1073,7 +1219,7 @@ export EGONET_CFG="$PWD/EgoNet-master/configs/KITTI_inference:test_submission.ym
 
 注意檔名中包含冒號 `:`，shell 仍可正常處理，建議加雙引號。
 
-### 21.4 EgoNet checkpoint 載入失敗
+### 20.6 EgoNet checkpoint 載入失敗
 
 確認 `--egonet_weights` 指向的是目錄，而不是單一 `.pth`：
 
@@ -1081,10 +1227,32 @@ export EGONET_CFG="$PWD/EgoNet-master/configs/KITTI_inference:test_submission.ym
 ls -lah weights/egonet
 ```
 
+### 20.7 出現開發者主機的 `/home/e114/...pkl` 警告
 
+明確覆寫或停用四車型模型：
 
+```bash
+--vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-"
+```
 
-### 21.9 `Missing image`
+### 20.8 所有 prediction 都是空白
+
+檢查：
+
+1. YOLO 權重是否正確。
+2. `--conf` 是否過高。
+3. `--car_names` 是否符合模型類別名稱。
+4. 影像是否可讀。
+5. 影像中是否真的有車輛。
+
+嘗試：
+
+```bash
+--conf 0.25 \
+--car_names car,vehicle,truck,bus
+```
+
+### 20.9 `Missing image`
 
 程式固定尋找：
 
@@ -1100,7 +1268,7 @@ ID="${ID%.*}"
 ls "$KITTI_ROOT/training/image_2/$ID.png"
 ```
 
-### 21.10 `Missing calibration`
+### 20.10 `Missing calibration`
 
 每張影像都需同名：
 
@@ -1110,7 +1278,7 @@ training/calib/<id>.txt
 
 且必須含 `P2:`。
 
-### 21.11 CUDA out of memory
+### 20.11 CUDA out of memory
 
 依序降低：
 
@@ -1132,7 +1300,7 @@ imgsz 1280 → 960 → 640
 vehclf backend
 ```
 
-### 21.12 CPU 使用 `--half` 發生錯誤
+### 20.12 CPU 使用 `--half` 發生錯誤
 
 CPU 執行時移除：
 
@@ -1141,7 +1309,7 @@ CPU 執行時移除：
 --vehclf_yolo_half
 ```
 
-### 21.13 `libGL.so.1` 錯誤
+### 20.13 `libGL.so.1` 錯誤
 
 改用：
 
@@ -1150,12 +1318,116 @@ pip uninstall -y opencv-python
 pip install opencv-python-headless
 ```
 
+### 20.14 NumPy pickle 相容問題
 
+目前程式已有 `numpy._core` 相容 shim。若仍失敗：
 
+- 在建立模型與推論時使用相同 NumPy 主版本。
+- 重新輸出 `.pkl`。
+- 不要任意對不可信 `.pkl` 執行反序列化。
 
-## 24. 正式實驗的建議設定
+### 20.15 `--max_images` 或 `--continue_on_error` 不支援
 
-### 24.1 不使用 GT 輸入
+目前 CLI 沒有這兩個參數。不要加入：
+
+```text
+--max_images
+--continue_on_error
+```
+
+需限制影像數量時，建立小型 split，方式見下一節。
+
+### 20.16 `unrecognized arguments`
+
+先確認目前版本支援的參數：
+
+```bash
+python gemo3d.py --help
+```
+
+不要直接複製舊版 `nearest_time_topbev_ncomp.py` 的所有參數。
+
+---
+
+## 21. 建立小型測試 split
+
+先取 `val.txt` 的前 10 張：
+
+```bash
+head -n 10 \
+  "$KITTI_ROOT/ImageSets/val.txt" \
+  > "$KITTI_ROOT/ImageSets/debug10.txt"
+```
+
+執行：
+
+```bash
+python gemo3d.py \
+  --kitti_root "$KITTI_ROOT" \
+  --split debug10 \
+  --out_dir "$OUT/debug10" \
+  ...
+```
+
+隨機取 20 張：
+
+```bash
+shuf "$KITTI_ROOT/ImageSets/val.txt" \
+  | head -n 20 \
+  > "$KITTI_ROOT/ImageSets/debug20.txt"
+```
+
+建議先成功執行 5～20 張，再跑完整資料集。
+
+---
+
+## 22. 資源不足時的安全設定
+
+推薦的低資源測試設定：
+
+```bash
+python gemo3d.py \
+  --kitti_root "$KITTI_ROOT" \
+  --split debug10 \
+  --out_dir "$OUT/debug10" \
+  --yolo_weights weights/yolo11n.pt \
+  --no_egonet \
+  --dims_source fixed \
+  --fixed_dims_hwl 1.55,1.74,3.86 \
+  --height_m 1.55 \
+  --vt_comp_pkl_map "compact=-,sedan=-,suv=-,van=-" \
+  --conf 0.25 \
+  --imgsz 640 \
+  --device cuda:0 \
+  --half \
+  --pred_meta_csv "$OUT/debug10/pred_meta.csv"
+```
+
+避免同時：
+
+- 執行多個資料集。
+- 開啟大量視覺化。
+- 使用大型 YOLO。
+- 使用多個車型分類器。
+- 將 `tightfit_max_nfev` 設得非常大。
+
+建議監控：
+
+```bash
+watch -n 1 nvidia-smi
+```
+
+系統記憶體：
+
+```bash
+watch -n 1 free -h
+```
+
+---
+
+## 23. 正式實驗的建議設定
+
+### 23.1 不使用 GT 輸入
 
 正式結果不要啟用：
 
@@ -1167,7 +1439,7 @@ pip install opencv-python-headless
 --proj_center_source gt_geom
 ```
 
-### 24.2 明確固定所有路徑
+### 23.2 明確固定所有路徑
 
 不要依賴程式內的 `/home/e114/...` 預設值。正式 shell script 應明確指定：
 
@@ -1181,7 +1453,7 @@ compensation models
 pred_meta.csv
 ```
 
-### 24.3 保留執行命令與版本
+### 23.3 保留執行命令與版本
 
 ```bash
 git rev-parse HEAD > "$OUT/git_commit.txt"
@@ -1196,7 +1468,7 @@ nvidia-smi > "$OUT/nvidia_smi.txt"
 run_gemo3d.sh
 ```
 
-### 24.4 建議 shell script
+### 23.4 建議 shell script
 
 ```bash
 #!/usr/bin/env bash
@@ -1248,8 +1520,64 @@ chmod +x run_gemo3d.sh
 ./run_gemo3d.sh
 ```
 
+---
 
-## 26. 專案結構
+## 24. 環境備份與移植
+
+### 24.1 匯出 Conda 環境
+
+完整匯出：
+
+```bash
+conda env export -n gemo3d > environment-gemo3d.yml
+```
+
+較精簡、只保留手動安裝項目：
+
+```bash
+conda env export -n gemo3d --from-history > environment-gemo3d-history.yml
+```
+
+### 24.2 在另一台主機重建
+
+```bash
+conda env create -f environment-gemo3d.yml
+conda activate gemo3d
+```
+
+注意：
+
+- 不同 GPU、driver 或 CUDA 環境可能需要重新安裝 PyTorch。
+- 權重、資料集與 `.pkl` 不會包含在 Conda 環境中，需另外複製。
+- `EGONET_ROOT` 與 `EGONET_CFG` 需依新路徑重新設定。
+
+### 24.3 使用 conda-pack 原封不動搬移
+
+來源主機：
+
+```bash
+conda install -n base -c conda-forge conda-pack -y
+conda pack -n gemo3d -o gemo3d.tar.gz
+```
+
+目標主機：
+
+```bash
+mkdir -p ~/conda_envs/gemo3d
+tar -xzf gemo3d.tar.gz -C ~/conda_envs/gemo3d
+source ~/conda_envs/gemo3d/bin/activate
+conda-unpack
+```
+
+跨不同 CUDA／driver 主機時仍需重新確認：
+
+```bash
+python -c "import torch; print(torch.cuda.is_available())"
+```
+
+---
+
+## 25. 專案結構
 
 目前主要結構：
 
