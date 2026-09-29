@@ -20,4 +20,6 @@ the English charts from the included CSV files. The Method section uses the
 author-supplied English architecture image. `tools/render_examples.py` reproduces the three example figures
 using the original local image, calibration and prediction files.
 
-The page is English only.
+The default language is English; the button at the top right switches page
+text to Traditional Chinese. The English title is a translation of the Chinese
+manuscript title and is also used in the BibTeX entry.

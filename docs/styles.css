@@ -28,6 +28,15 @@ figure,h1,h2,h3,p{margin:0}
 .skip{position:absolute;top:8px;left:-9999px;background:#fff;padding:10px;z-index:20}
 .skip:focus{left:10px}
 
+/* language toggle */
+.lang-toggle{
+  position:fixed;top:16px;right:18px;z-index:10;
+  border:1px solid var(--line);background:rgba(255,255,255,.88);backdrop-filter:blur(8px);
+  color:var(--ink);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;
+  box-shadow:0 4px 14px rgba(20,30,50,.08)
+}
+.lang-toggle:hover{border-color:#b9c3d6}
+
 /* ---------------- hero ---------------- */
 .hero{position:relative;overflow:hidden;text-align:center;padding:72px 0 30px;isolation:isolate}
 .hero-glow{
@@ -133,8 +142,8 @@ video.loop{width:100%;border-radius:12px;background:#eef2f6}
 .card-figure figcaption{margin-top:10px}
 video.carla{width:100%;aspect-ratio:1242/374;object-fit:cover;border-radius:10px;background:#18212a}
 .image-compare{position:relative;aspect-ratio:16/9;overflow:hidden;background:#e8e8e8;border-radius:10px;isolation:isolate;touch-action:pan-y}
-.image-compare img,.rear-image{width:100%;height:100%;object-fit:cover;object-position:center}
-.rear-image{aspect-ratio:16/9;border-radius:10px}
+.image-compare img{width:100%;height:100%;object-fit:cover;object-position:center}
+.rear-image{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px}
 .compare-base,.compare-reveal,.compare-reveal img{position:absolute;inset:0}
 .compare-reveal{clip-path:inset(0 calc(100% - var(--split)) 0 0);pointer-events:none}
 .compare-divider{position:absolute;top:0;bottom:0;left:var(--split);width:2px;transform:translateX(-50%);background:#fff;box-shadow:0 0 0 1px #24364a40;pointer-events:none;z-index:2}
@@ -147,7 +156,7 @@ video.carla{width:100%;aspect-ratio:1242/374;object-fit:cover;border-radius:10px
 .pill-tabs button{border:1px solid #d5dbe6;background:#fff;color:#556070;padding:7px 16px;border-radius:999px;font-size:13.5px}
 .pill-tabs button:hover{border-color:#9fb0cf;color:var(--blue)}
 .pill-tabs button.active{border-color:transparent;background:var(--grad);color:#fff;font-weight:600}
-.example-tabs{margin:12px 0 0;order:2}
+.example-tabs{margin:0 0 14px}
 .example-stage{display:flex;flex-direction:column}
 .example-panel>a{display:block;overflow:hidden;border-radius:10px;background:#fff}
 .example-panel img{width:100%}

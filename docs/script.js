@@ -1,3 +1,16 @@
+const languageButton = document.getElementById('language');
+let language = 'en';
+languageButton.addEventListener('click', () => {
+  language = language === 'en' ? 'zh' : 'en';
+  document.documentElement.lang = language === 'zh' ? 'zh-Hant' : 'en';
+  document.querySelectorAll('[data-en][data-zh]').forEach(element => {
+    element.innerHTML = element.dataset[language];
+  });
+  languageButton.textContent = language === 'en' ? '繁中' : 'EN';
+  languageButton.setAttribute('aria-label', language === 'en' ? 'Switch to Traditional Chinese' : 'Switch to English');
+  document.getElementById('copyStatus').textContent = '';
+});
+
 const imageCompare = document.getElementById('imageCompare');
 const compareRange = document.getElementById('compareRange');
 const rearImage = document.getElementById('rearImage');
@@ -56,9 +69,9 @@ document.getElementById('copyBib').addEventListener('click', async () => {
   clearTimeout(copyTimer);
   try {
     await navigator.clipboard.writeText(document.getElementById('bibtex').textContent);
-    status.textContent = 'Copied';
+    status.textContent = language === 'en' ? 'Copied' : '已複製';
   } catch {
-    status.textContent = 'Select the citation text to copy.';
+    status.textContent = language === 'en' ? 'Select the citation text to copy.' : '請選取引用文字複製。';
   }
   copyTimer = setTimeout(() => { status.textContent = ''; }, 2500);
 });
