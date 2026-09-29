@@ -7,7 +7,9 @@ The paper link currently points to a shared Google Drive PDF and may require acc
 ## Local preview
 
 From the repository root, run `python3 -m http.server 8765 --directory docs`
-and open `http://localhost:8765/`. The page needs no build step or external font.
+and open `http://localhost:8765/`. The page needs no build step; fonts (Space Grotesk,
+Noto Sans, Noto Sans TC) load from Google Fonts. The overview video is embedded
+from YouTube (https://youtu.be/WyC59Sddipc).
 
 ## Figures and data
 

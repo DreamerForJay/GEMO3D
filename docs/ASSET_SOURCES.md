@@ -58,6 +58,17 @@ reconstruct the 165-object evaluation set from the currently available pair
 files. `assets/data/examples.json` records the selected poses and calibration.
 SVG files embed their RGB image, so they do not depend on local absolute paths.
 
+## Overview video and method animations
+
+The overview video is hosted on YouTube (https://youtu.be/WyC59Sddipc). It was
+rendered with HyperFrames from the figures in this folder; every number it shows
+comes from the manuscript table.
+
+`assets/loop-pinhole.mp4`, `assets/loop-ratio.mp4` and `assets/loop-reconstruct.mp4`
+are silent, cropped excerpts of that same video (scenes "Initial depth", "The key
+idea" and "3D reconstruction"), re-encoded at 1280 px wide for the Method section.
+They illustrate the geometry; they are not new detection outputs.
+
 ## Existing materials and venue
 
 The depth-compensation scatter plot and CARLA video are unchanged assets from
@@ -72,5 +83,7 @@ claim a best-paper award. The abstract is a concise project-page summary.
 - https://johnnylu305.github.io/df3dv1k_web/
 - https://linjohnss.github.io/scal3r/
 - https://qft-333.github.io/moge3page/
+- https://siang1105.github.io/JanusMesh.github.io/
+- https://shigon255.github.io/brdfusion-page/
 
 The page borrows layout ideas, not their source code or research media.
