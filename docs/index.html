@@ -58,90 +58,58 @@
 <a aria-label="Open the method diagram at full size" href="assets/architecture-en.png" rel="noopener noreferrer" target="_blank"><img alt="GEMO3D architecture showing the online inference and offline training stages" height="768" loading="lazy" src="assets/architecture-en.png" width="2048"/></a>
 <figcaption data-en="Online inference (top) and offline construction of the projection-height ratio model (bottom). Click to enlarge." data-zh="上方為線上推論，下方為離線建立投影高度比例模型。點擊可放大。">Online inference (top) and offline construction of the projection-height ratio model (bottom). Click to enlarge.</figcaption>
 </figure>
-
-<div class="steps">
-<article class="step">
-<div class="step-head"><span class="step-no">1</span><div><h3 data-en="Pinhole initialization" data-zh="針孔初始深度">Pinhole initialization</h3><p data-en="YOLOv11 detects the vehicle, a classifier picks its size prior H and Ego-Net estimates the viewing angle θ. The box height gives an initial depth." data-zh="YOLOv11 偵測車輛，分類器選取車高先驗 H，Ego-Net 估計觀測角 θ；由框高取得初始深度。">YOLOv11 detects the vehicle, a classifier picks its size prior H and Ego-Net estimates the viewing angle θ. The box height gives an initial depth.</p></div><div class="eq">Z<sub>raw</sub> = f<sub>y</sub> H / h<sub>2D</sub></div></div>
-<video autoplay="" class="loop" height="548" loop="" muted="" playsinline="" poster="assets/loop-pinhole-poster.webp" preload="metadata" width="1280"><source src="assets/loop-pinhole.mp4" type="video/mp4"/></video>
-</article>
-<article class="step">
-<div class="step-head"><span class="step-no">2</span><div><h3 data-en="Projection-height ratio correction" data-zh="投影高度比例補償">Projection-height ratio correction</h3><p data-en="The 2D box follows the silhouette, not the 3D centerline. A class-specific rank-1 SVD model predicts the ratio &lt;span class=&quot;hat&quot;&gt;r&lt;/span&gt;&lt;sub&gt;c&lt;/sub&gt; ≈ h&lt;sub&gt;2D&lt;/sub&gt; / h&lt;sub&gt;3D,proj&lt;/sub&gt; from θ and Z&lt;sub&gt;raw&lt;/sub&gt; — &lt;a href=&quot;#ratio-model&quot;&gt;see the model below&lt;/a&gt;." data-zh="2D 框貼合輪廓而非 3D 中心線。依車型建立的 Rank-1 SVD 模型由 θ 與 Z&lt;sub&gt;raw&lt;/sub&gt; 預測比例 &lt;span class=&quot;hat&quot;&gt;r&lt;/span&gt;&lt;sub&gt;c&lt;/sub&gt; ≈ h&lt;sub&gt;2D&lt;/sub&gt; / h&lt;sub&gt;3D,proj&lt;/sub&gt;——&lt;a href=&quot;#ratio-model&quot;&gt;詳見下方模型說明&lt;/a&gt;。">The 2D box follows the silhouette, not the 3D centerline. A class-specific rank-1 SVD model predicts the ratio <span class="hat">r</span><sub>c</sub> ≈ h<sub>2D</sub> / h<sub>3D,proj</sub> from θ and Z<sub>raw</sub> — <a href="#ratio-model">see the model below</a>.</p></div><div class="eq">Z<sub>corr</sub> = Z<sub>raw</sub> · <span class="hat">r</span><sub>c</sub>(θ, Z<sub>raw</sub>)</div></div>
-<video autoplay="" class="loop" height="476" loop="" muted="" playsinline="" poster="assets/loop-ratio-poster.webp" preload="metadata" width="1280"><source src="assets/loop-ratio.mp4" type="video/mp4"/></video>
-</article>
-<article class="step">
-<div class="step-head"><span class="step-no">3</span><div><h3 data-en="3D reconstruction" data-zh="3D 框重建">3D reconstruction</h3><p data-en="Back-projection places the box at the corrected depth, a ground-plane constraint fixes its bottom center, and reprojection aligns it with the 2D detection." data-zh="以修正後深度反投影放置 3D 框，道路平面約束固定底部中心，再以重投影與 2D 偵測對齊。">Back-projection places the box at the corrected depth, a ground-plane constraint fixes its bottom center, and reprojection aligns it with the 2D detection.</p></div></div>
-<video autoplay="" class="loop" height="506" loop="" muted="" playsinline="" poster="assets/loop-reconstruct-poster.webp" preload="metadata" width="1280"><source src="assets/loop-reconstruct.mp4" type="video/mp4"/></video>
-</article>
+<div class="loops">
+<figure class="loop-card"><video autoplay="" class="loop" height="548" loop="" muted="" playsinline="" poster="assets/loop-pinhole-poster.webp" preload="metadata" width="1280"><source src="assets/loop-pinhole.mp4" type="video/mp4"/></video><figcaption><span class="step-no">1</span><span data-en="Pinhole initialization" data-zh="針孔初始深度">Pinhole initialization</span><div class="eq">Z<sub>raw</sub> = f<sub>y</sub> H / h<sub>2D</sub></div></figcaption></figure>
+<figure class="loop-card"><video autoplay="" class="loop" height="476" loop="" muted="" playsinline="" poster="assets/loop-ratio-poster.webp" preload="metadata" width="1280"><source src="assets/loop-ratio.mp4" type="video/mp4"/></video><figcaption><span class="step-no">2</span><span data-en="Height-ratio correction" data-zh="投影高度比例補償">Height-ratio correction</span><div class="eq">Z<sub>corr</sub> = Z<sub>raw</sub> · <span class="hat">r</span><sub>c</sub>(θ, Z<sub>raw</sub>)</div></figcaption></figure>
+<figure class="loop-card"><video autoplay="" class="loop" height="506" loop="" muted="" playsinline="" poster="assets/loop-reconstruct-poster.webp" preload="metadata" width="1280"><source src="assets/loop-reconstruct.mp4" type="video/mp4"/></video><figcaption><span class="step-no">3</span><span data-en="3D reconstruction" data-zh="3D 框重建">3D reconstruction</span></figcaption></figure>
 </div>
-
-
 </section>
 
 <!-- ================= RANK-1 RATIO MODEL ================= -->
 <section class="section model" id="ratio-model"><div class="shell">
 <p class="eyebrow"><span data-en="Core contribution" data-zh="核心貢獻">Core contribution</span></p>
 <h2 data-en="Rank-1 Projection-Height Ratio Model" data-zh="Rank-1 投影高度比例補償模型">Rank-1 Projection-Height Ratio Model</h2>
-<p class="model-lead" data-en="Instead of regressing a depth error, GEMO3D models &lt;i&gt;why&lt;/i&gt; pinhole depth is biased — the ratio between the detected box height and the ideal projected height of the 3D centerline — and compresses that ratio surface with a low-rank (rank-1) SVD." data-zh="GEMO3D 不直接回歸深度誤差，而是建模針孔深度「為什麼」會偏差——2D 偵測框高與 3D 中心線理想投影高度之間的比例——再以低秩（Rank-1）SVD 壓縮這個比例曲面。">Instead of regressing a depth error, GEMO3D models <i>why</i> pinhole depth is biased — the ratio between the detected box height and the ideal projected height of the 3D centerline — and compresses that ratio surface with a low-rank (rank-1) SVD.</p>
-
-<div class="why-grid">
-<figure class="model-card"><img alt="Initial depth error versus observation angle at 10 m" height="351" loading="lazy" src="assets/zerr-angle.webp" width="617"/><figcaption data-en="Z&lt;sub&gt;err&lt;/sub&gt; at Z&lt;sub&gt;gt&lt;/sub&gt; = 10 m changes non-linearly with the viewing angle θ (manuscript Fig. 4)." data-zh="Z&lt;sub&gt;gt&lt;/sub&gt; = 10 m 時，Z&lt;sub&gt;err&lt;/sub&gt; 隨觀測角 θ 非線性變化（論文圖 4）。">Z<sub>err</sub> at Z<sub>gt</sub> = 10 m changes non-linearly with the viewing angle θ (manuscript Fig. 4).</figcaption></figure>
-<div class="why-copy">
-<h3 data-en="Why a ratio, not an error?" data-zh="為何建模比例而非誤差？">Why a ratio, not an error?</h3>
-<p data-en="The raw error is not a fixed offset: it grows with distance (Fig. 3) and depends on θ (Fig. 4). Because projected height is inversely proportional to depth, the scale-free ratio captures the bias directly:" data-zh="初始深度誤差並非固定偏移：它隨距離擴大（圖 3），也隨觀測角變化（圖 4）。由於投影高度與深度成反比，無尺度的高度比例能直接描述這個偏差：">The raw error is not a fixed offset: it grows with distance (Fig. 3) and depends on θ (Fig. 4). Because projected height is inversely proportional to depth, the scale-free ratio captures the bias directly:</p>
-<div class="eq eq-big">r = h<sub>2D</sub> / h<sub>3D,proj</sub></div>
-<p data-en="Z&lt;sub&gt;raw&lt;/sub&gt; = f&lt;sub&gt;y&lt;/sub&gt;H / h&lt;sub&gt;2D&lt;/sub&gt; therefore over- or under-estimates depth by exactly this factor." data-zh="因此 Z&lt;sub&gt;raw&lt;/sub&gt; = f&lt;sub&gt;y&lt;/sub&gt;H / h&lt;sub&gt;2D&lt;/sub&gt; 的高估或低估，正好由這個比例決定。">Z<sub>raw</sub> = f<sub>y</sub>H / h<sub>2D</sub> therefore over- or under-estimates depth by exactly this factor.</p>
+<p class="model-lead" data-en="A 2D box follows the silhouette, so its height differs from the projected 3D centerline by a ratio r = h&lt;sub&gt;2D&lt;/sub&gt; / h&lt;sub&gt;3D,proj&lt;/sub&gt; that varies with viewing angle and depth. GEMO3D learns this ratio surface per vehicle class and compresses it with a rank-1 SVD." data-zh="2D 框貼合輪廓，其高度與 3D 中心線投影高度相差一個比例 r = h&lt;sub&gt;2D&lt;/sub&gt; / h&lt;sub&gt;3D,proj&lt;/sub&gt;，且隨觀測角與深度變化。GEMO3D 依車型學習這個比例曲面，並以 Rank-1 SVD 壓縮。">A 2D box follows the silhouette, so its height differs from the projected 3D centerline by a ratio r = h<sub>2D</sub> / h<sub>3D,proj</sub> that varies with viewing angle and depth. GEMO3D learns this ratio surface per vehicle class and compresses it with a rank-1 SVD.</p>
+<div class="flow">
+<span data-en="Blender renders" data-zh="Blender 虛擬場景">Blender renders</span><i>→</i><span data-en="ratio matrix R&lt;sub&gt;c&lt;/sub&gt;(θ, Z)" data-zh="比例矩陣 R&lt;sub&gt;c&lt;/sub&gt;(θ, Z)">ratio matrix R<sub>c</sub>(θ, Z)</span><i>→</i><span data-en="center per angle" data-zh="依角度中心化">center per angle</span><i>→</i><span data-en="rank-1 SVD ≈ σ&lt;sub&gt;1&lt;/sub&gt;u&lt;sub&gt;1&lt;/sub&gt;v&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;T&lt;/sup&gt;" data-zh="Rank-1 SVD ≈ σ&lt;sub&gt;1&lt;/sub&gt;u&lt;sub&gt;1&lt;/sub&gt;v&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;T&lt;/sup&gt;">rank-1 SVD ≈ σ<sub>1</sub>u<sub>1</sub>v<sub>1</sub><sup>T</sup></span>
 </div>
-</div>
-
-<ol class="build-steps">
-<li><span class="build-no">01</span><h4 data-en="Virtual data" data-zh="虛擬場景數據">Virtual data</h4><p data-en="Blender renders each vehicle type over a grid of viewing angles θ and center depths. YOLOv11 gives h&lt;sub&gt;2D&lt;/sub&gt;; projecting the 3D centerline gives h&lt;sub&gt;3D,proj&lt;/sub&gt;." data-zh="以 Blender 對各車型在不同觀測角 θ 與中心深度下渲染影像；YOLOv11 取得 h&lt;sub&gt;2D&lt;/sub&gt;，投影 3D 中心線取得 h&lt;sub&gt;3D,proj&lt;/sub&gt;。">Blender renders each vehicle type over a grid of viewing angles θ and center depths. YOLOv11 gives h<sub>2D</sub>; projecting the 3D centerline gives h<sub>3D,proj</sub>.</p></li>
-<li><span class="build-no">02</span><h4 data-en="Ratio matrix" data-zh="比例矩陣">Ratio matrix</h4><p data-en="For class c, ratios are arranged on the angle × depth grid:" data-zh="對車型 c，把比例排成觀測角 × 深度的矩陣：">For class c, ratios are arranged on the angle × depth grid:</p><div class="eq">R<sub>c</sub>(i, j) = r<sub>c</sub>(θ<sub>i</sub>, Z<sub>j</sub>) ∈ ℝ<sup>N<sub>θ</sub>×N<sub>Z</sub></sup></div></li>
-<li><span class="build-no">03</span><h4 data-en="Normalize &amp;amp; center" data-zh="正規化與中心化">Normalize &amp; center</h4><p data-en="Depth is mapped to ρ&lt;sub&gt;c&lt;/sub&gt;(Z) ∈ [−1, 1]. The per-angle mean b&lt;sub&gt;c&lt;/sub&gt;(θ) is removed so the SVD models only the depth-dependent change:" data-zh="深度線性映射到 ρ&lt;sub&gt;c&lt;/sub&gt;(Z) ∈ [−1, 1]；扣除各觀測角的平均比例 b&lt;sub&gt;c&lt;/sub&gt;(θ)，讓 SVD 只建模隨深度的變化：">Depth is mapped to ρ<sub>c</sub>(Z) ∈ [−1, 1]. The per-angle mean b<sub>c</sub>(θ) is removed so the SVD models only the depth-dependent change:</p><div class="eq">X<sub>c</sub> = R<sub>c</sub> − b<sub>c</sub>1<sup>T</sup></div></li>
-<li><span class="build-no">04</span><h4 data-en="Rank-1 SVD" data-zh="Rank-1 奇異值分解">Rank-1 SVD</h4><p data-en="Keeping only the first singular component gives a compact low-rank surface:" data-zh="只保留第一奇異成分，得到精簡的低秩曲面：">Keeping only the first singular component gives a compact low-rank surface:</p><div class="eq">X<sub>c</sub> = U<sub>c</sub>Σ<sub>c</sub>V<sub>c</sub><sup>T</sup> ≈ σ<sub>1</sub>u<sub>1</sub>v<sub>1</sub><sup>T</sup></div></li>
-</ol>
-
 <div class="model-eq">
 <div class="eq-hero"><i>r</i><sub>c</sub>(θ, Z) = <span class="t t1">b<sub>c</sub>(θ)</span> + <span class="t t2">a<sub>c</sub>(θ)</span> · <span class="t t3">C<sub>c</sub>(ρ<sub>c</sub>(Z))</span></div>
 <div class="eq-legend">
-<span class="l1"><b data-en="angle baseline" data-zh="角度基準項">angle baseline</b><span data-en="mean ratio per angle" data-zh="各角度的平均比例">mean ratio per angle</span></span>
+<span class="l1"><b data-en="angle baseline" data-zh="角度基準項">angle baseline</b></span>
 <span class="l2"><b data-en="angle amplitude" data-zh="角度振幅">angle amplitude</b><span>σ<sub>1</sub>u<sub>1</sub></span></span>
 <span class="l3"><b data-en="shared depth curve" data-zh="共享深度基底">shared depth curve</b><span>v<sub>1</sub></span></span>
 </div>
 </div>
-
 <div class="fig5">
-<figure class="model-card"><img alt="Angle amplitude a(theta) for three vehicle types" height="307" loading="lazy" src="assets/rank1-a.webp" width="462"/><figcaption data-en="(a) angle amplitude a&lt;sub&gt;c&lt;/sub&gt;(θ)" data-zh="(a) 角度振幅 a&lt;sub&gt;c&lt;/sub&gt;(θ)">(a) angle amplitude a<sub>c</sub>(θ)</figcaption></figure>
-<figure class="model-card"><img alt="Angle baseline b(theta) for three vehicle types" height="305" loading="lazy" src="assets/rank1-b.webp" width="459"/><figcaption data-en="(b) angle baseline b&lt;sub&gt;c&lt;/sub&gt;(θ)" data-zh="(b) 角度基準項 b&lt;sub&gt;c&lt;/sub&gt;(θ)">(b) angle baseline b<sub>c</sub>(θ)</figcaption></figure>
-<figure class="model-card"><img alt="Shared depth basis C(rho(Z)) for three vehicle types" height="302" loading="lazy" src="assets/rank1-c.webp" width="455"/><figcaption data-en="(c) shared depth basis C&lt;sub&gt;c&lt;/sub&gt;(ρ&lt;sub&gt;c&lt;/sub&gt;(Z))" data-zh="(c) 共享深度基底 C&lt;sub&gt;c&lt;/sub&gt;(ρ&lt;sub&gt;c&lt;/sub&gt;(Z))">(c) shared depth basis C<sub>c</sub>(ρ<sub>c</sub>(Z))</figcaption></figure>
+<figure class="model-card"><img alt="Angle amplitude a(theta) for three vehicle types" height="307" loading="lazy" src="assets/rank1-a.webp" width="462"/><figcaption>(a) a<sub>c</sub>(θ)</figcaption></figure>
+<figure class="model-card"><img alt="Angle baseline b(theta) for three vehicle types" height="305" loading="lazy" src="assets/rank1-b.webp" width="459"/><figcaption>(b) b<sub>c</sub>(θ)</figcaption></figure>
+<figure class="model-card"><img alt="Shared depth basis C(rho(Z)) for three vehicle types" height="302" loading="lazy" src="assets/rank1-c.webp" width="455"/><figcaption>(c) C<sub>c</sub>(ρ<sub>c</sub>(Z))</figcaption></figure>
 </div>
-<p class="model-note" data-en="b&lt;sub&gt;c&lt;/sub&gt;(θ) is nearly flat, while |a&lt;sub&gt;c&lt;/sub&gt;(θ)| changes strongly with direction: one shared depth curve, scaled per angle, reconstructs the whole ratio surface (manuscript Fig. 5)." data-zh="b&lt;sub&gt;c&lt;/sub&gt;(θ) 變化平緩，而 |a&lt;sub&gt;c&lt;/sub&gt;(θ)| 隨觀測方向大幅改變：一條共享的深度母曲線，依角度縮放，即可重建完整比例曲面（論文圖 5）。">b<sub>c</sub>(θ) is nearly flat, while |a<sub>c</sub>(θ)| changes strongly with direction: one shared depth curve, scaled per angle, reconstructs the whole ratio surface (manuscript Fig. 5).</p>
-
-<div class="energy-wrap">
-<div class="energy">
-<h3 data-en="Rank-1 keeps over 95% of the energy" data-zh="Rank-1 保留超過 95% 的能量">Rank-1 keeps over 95% of the energy</h3>
-<div class="energy-row"><span class="cls">Compact</span><div class="bar"><i style="--v:95.11%"></i></div><b>95.11%</b></div>
-<div class="energy-row"><span class="cls">Sedan</span><div class="bar"><i style="--v:98.55%"></i></div><b>98.55%</b></div>
-<div class="energy-row"><span class="cls">SUV</span><div class="bar"><i style="--v:98.94%"></i></div><b>98.94%</b></div>
-<p class="energy-note" data-en="Energy of the first singular component, EV&lt;sub&gt;1,c&lt;/sub&gt; = σ&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; / Σ&lt;sub&gt;k&lt;/sub&gt;σ&lt;sub&gt;k&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; (σ&lt;sub&gt;1&lt;/sub&gt; / σ&lt;sub&gt;2&lt;/sub&gt;: Compact 5.157 / 0.682, Sedan 7.633 / 0.658, SUV 6.226 / 0.370; manuscript Table 1)." data-zh="第一奇異成分能量占比 EV&lt;sub&gt;1,c&lt;/sub&gt; = σ&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; / Σ&lt;sub&gt;k&lt;/sub&gt;σ&lt;sub&gt;k&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;（σ&lt;sub&gt;1&lt;/sub&gt; / σ&lt;sub&gt;2&lt;/sub&gt;：Compact 5.157 / 0.682、Sedan 7.633 / 0.658、SUV 6.226 / 0.370；論文表 1）。">Energy of the first singular component, EV<sub>1,c</sub> = σ<sub>1</sub><sup>2</sup> / Σ<sub>k</sub>σ<sub>k</sub><sup>2</sup> (σ<sub>1</sub> / σ<sub>2</sub>: Compact 5.157 / 0.682, Sedan 7.633 / 0.658, SUV 6.226 / 0.370; manuscript Table 1).</p>
+<div class="facts">
+<div><strong>&gt; 95%</strong><span data-en="energy kept by rank-1&lt;br/&gt;&lt;small&gt;Compact 95.11 · Sedan 98.55 · SUV 98.94&lt;/small&gt;" data-zh="Rank-1 保留的能量&lt;br/&gt;&lt;small&gt;Compact 95.11 · Sedan 98.55 · SUV 98.94&lt;/small&gt;">energy kept by rank-1<br/><small>Compact 95.11 · Sedan 98.55 · SUV 98.94</small></span></div>
+<div><strong>3</strong><span data-en="1-D curves stored per vehicle class" data-zh="每種車型只需三條一維曲線">1-D curves stored per vehicle class</span></div>
+<div><strong>0</strong><span data-en="ground-truth depth needed at inference" data-zh="推論時所需的真值深度">ground-truth depth needed at inference</span></div>
 </div>
-<div class="infer">
-<h3 data-en="At inference" data-zh="推論時">At inference</h3>
-<p data-en="Each class stores only M&lt;sub&gt;c&lt;/sub&gt; = {b&lt;sub&gt;c&lt;/sub&gt;, a&lt;sub&gt;c&lt;/sub&gt;, C&lt;sub&gt;c&lt;/sub&gt;, Θ&lt;sub&gt;c&lt;/sub&gt;, Z&lt;sub&gt;min,c&lt;/sub&gt;, Z&lt;sub&gt;max,c&lt;/sub&gt;} — three 1-D curves, interpolated. The predicted class, θ&lt;sub&gt;pred&lt;/sub&gt; and Z&lt;sub&gt;raw&lt;/sub&gt; look up the ratio:" data-zh="每種車型只需儲存 M&lt;sub&gt;c&lt;/sub&gt; = {b&lt;sub&gt;c&lt;/sub&gt;, a&lt;sub&gt;c&lt;/sub&gt;, C&lt;sub&gt;c&lt;/sub&gt;, Θ&lt;sub&gt;c&lt;/sub&gt;, Z&lt;sub&gt;min,c&lt;/sub&gt;, Z&lt;sub&gt;max,c&lt;/sub&gt;}——三條可內插的一維曲線。以預測車型、θ&lt;sub&gt;pred&lt;/sub&gt; 與 Z&lt;sub&gt;raw&lt;/sub&gt; 查詢比例：">Each class stores only M<sub>c</sub> = {b<sub>c</sub>, a<sub>c</sub>, C<sub>c</sub>, Θ<sub>c</sub>, Z<sub>min,c</sub>, Z<sub>max,c</sub>} — three 1-D curves, interpolated. The predicted class, θ<sub>pred</sub> and Z<sub>raw</sub> look up the ratio:</p>
-<div class="eq eq-big">Z<sub>corr</sub> = Z<sub>raw</sub> × r<sub>c</sub>(θ<sub>pred</sub>, Z<sub>raw</sub>)</div>
-<p data-en="Ground-truth depth is used only to build the model offline, never at inference." data-zh="真值深度只在離線建模時使用，推論時完全不需要。">Ground-truth depth is used only to build the model offline, never at inference.</p>
-</div>
-</div>
-
-<figure class="model-card compensation-figure"><img alt="Depth error before and after projection-height ratio compensation" height="383" loading="lazy" src="assets/compensation.webp" width="579"/><figcaption data-en="Depth error before (raw) and after compensation (manuscript Fig. 3): corrected samples are pulled back to near zero across 5–40 m." data-zh="補償前（raw）與補償後的深度誤差（論文圖 3）：補償後樣本在 5–40 公尺範圍內被拉回零誤差附近。">Depth error before (raw) and after compensation (manuscript Fig. 3): corrected samples are pulled back to near zero across 5–40 m.</figcaption></figure>
 </div></section>
 
-<!-- ================= QUALITATIVE ================= -->
-<section class="section band" id="qualitative"><div class="shell">
-<h2 data-en="Qualitative Results" data-zh="預測示例">Qualitative Results</h2>
-<figure class="carla-strip">
-<video autoplay="" class="carla" height="374" loop="" muted="" playsinline="" poster="assets/carla-poster.webp" preload="metadata" width="1242"><source src="assets/carla-scene-h264.mp4" type="video/mp4"/></video>
-<figcaption data-en="CARLA two-vehicle sequence used for evaluation." data-zh="評估使用的 CARLA 雙車序列。">CARLA two-vehicle sequence used for evaluation.</figcaption>
-</figure>
+<!-- ================= RESULTS ================= -->
+<section class="section shell" id="results">
+<h2 data-en="Results" data-zh="實驗結果">Results</h2>
+<p class="section-intro" data-en="165 vehicles in a CARLA sequence, matched by GEMO3D, MonoAMNet, MonoDGP and MonoDETR." data-zh="CARLA 序列中四種方法皆成功配對的 165 輛車。">165 vehicles in a CARLA sequence, matched by GEMO3D, MonoAMNet, MonoDGP and MonoDETR.</p>
+<div aria-label="Quantitative comparison" class="table-scroll" role="region" tabindex="0"><table>
+<caption><span data-en="Values from the CVGIP 2026 manuscript. FPS measured separately on 100 images (RTX 3060 12 GB). Best in bold." data-zh="數值取自 CVGIP 2026 論文；FPS 另以 100 張影像測量（RTX 3060 12 GB）。粗體為最佳值。">Values from the CVGIP 2026 manuscript. FPS measured separately on 100 images (RTX 3060 12 GB). Best in bold.</span></caption>
+<thead><tr><th data-en="Method" data-zh="方法" scope="col">Method</th><th data-en="Depth RMSE&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="深度 RMSE&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">Depth RMSE<br/><span>(m) ↓</span></th><th data-en="Yaw error&lt;br&gt;&lt;span&gt;(°) ↓&lt;/span&gt;" data-zh="朝向誤差&lt;br&gt;&lt;span&gt;（度）↓&lt;/span&gt;" scope="col">Yaw error<br/><span>(°) ↓</span></th><th data-en="3D center error&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="3D 中心誤差&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">3D center error<br/><span>(m) ↓</span></th><th scope="col">BEV IoU<br/><span>↑</span></th><th scope="col">FPS<br/><span>↑</span></th></tr></thead>
+<tbody><tr><th scope="row">MonoAMNet</th><td>5.58</td><td>18.97</td><td>2.76</td><td>0.46</td><td><strong>40.23</strong></td></tr>
+<tr><th scope="row">MonoDGP</th><td>1.40</td><td><strong>1.23</strong></td><td>1.25</td><td>0.46</td><td>24.71</td></tr>
+<tr><th scope="row">MonoDETR</th><td>0.33</td><td>1.73</td><td>0.28</td><td>0.70</td><td>21.34</td></tr>
+<tr class="ours"><th scope="row">GEMO3D <span class="ours-tag" data-en="ours" data-zh="本文">ours</span></th><td><strong>0.27</strong></td><td>2.12</td><td><strong>0.25</strong></td><td><strong>0.82</strong></td><td>31.12</td></tr>
+</tbody></table></div>
+<div class="chart-grid three">
+<figure><img alt="Depth error before and after compensation" height="383" loading="lazy" src="assets/compensation.webp" width="579"/><figcaption data-en="Depth error, raw vs. compensated" data-zh="補償前後的深度誤差">Depth error, raw vs. compensated</figcaption></figure>
+<figure><img alt="3D center error by depth for four methods" height="303" loading="lazy" src="assets/center-error.webp" width="479"/><figcaption data-en="3D center error by depth ↓" data-zh="各深度 3D 中心誤差 ↓">3D center error by depth ↓</figcaption></figure>
+<figure><img alt="BEV IoU by depth for four methods" height="303" loading="lazy" src="assets/bev-iou.webp" width="480"/><figcaption data-en="BEV IoU by depth ↑" data-zh="各深度 BEV IoU ↑">BEV IoU by depth ↑</figcaption></figure>
+</div>
 <div class="qual-grid">
 <figure class="card-figure">
 <h3 class="card-title" data-en="2D detection → 3D box" data-zh="2D 偵測 → 3D 框">2D detection → 3D box</h3>
@@ -163,25 +131,8 @@
 </div>
 </div>
 </div>
-<p class="figure-note" data-en="Blue: GEMO3D prediction. Bird’s-eye view: orange dashed ground truth, 1 m grid. Samples are the objects nearest each distance, not selected by error." data-zh="藍色為 GEMO3D 預測；鳥瞰圖中橘色虛線為真值，網格 1 公尺。樣本取最接近各距離的物件，並非依誤差挑選。">Blue: GEMO3D prediction. Bird’s-eye view: orange dashed ground truth, 1 m grid. Samples are the objects nearest each distance, not selected by error.</p>
-</div></section>
-
-<!-- ================= QUANTITATIVE ================= -->
-<section class="section shell" id="results">
-<h2 data-en="Quantitative Results" data-zh="量化結果">Quantitative Results</h2>
-<p class="section-intro" data-en="165 vehicle instances matched by GEMO3D, MonoAMNet, MonoDGP and MonoDETR in CARLA." data-zh="CARLA 中 GEMO3D、MonoAMNet、MonoDGP 與 MonoDETR 皆成功配對的 165 個車輛樣本。">165 vehicle instances matched by GEMO3D, MonoAMNet, MonoDGP and MonoDETR in CARLA.</p>
-<div aria-label="Quantitative comparison" class="table-scroll" role="region" tabindex="0"><table>
-<caption><span data-en="Values from the CVGIP 2026 manuscript. FPS measured separately on 100 images (RTX 3060 12 GB). Best in bold." data-zh="數值取自 CVGIP 2026 論文；FPS 另以 100 張影像測量（RTX 3060 12 GB）。粗體為最佳值。">Values from the CVGIP 2026 manuscript. FPS measured separately on 100 images (RTX 3060 12 GB). Best in bold.</span></caption>
-<thead><tr><th data-en="Method" data-zh="方法" scope="col">Method</th><th data-en="Depth RMSE&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="深度 RMSE&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">Depth RMSE<br/><span>(m) ↓</span></th><th data-en="Yaw error&lt;br&gt;&lt;span&gt;(°) ↓&lt;/span&gt;" data-zh="朝向誤差&lt;br&gt;&lt;span&gt;（度）↓&lt;/span&gt;" scope="col">Yaw error<br/><span>(°) ↓</span></th><th data-en="3D center error&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="3D 中心誤差&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">3D center error<br/><span>(m) ↓</span></th><th scope="col">BEV IoU<br/><span>↑</span></th><th scope="col">FPS<br/><span>↑</span></th></tr></thead>
-<tbody><tr><th scope="row">MonoAMNet</th><td>5.58</td><td>18.97</td><td>2.76</td><td>0.46</td><td><strong>40.23</strong></td></tr>
-<tr><th scope="row">MonoDGP</th><td>1.40</td><td><strong>1.23</strong></td><td>1.25</td><td>0.46</td><td>24.71</td></tr>
-<tr><th scope="row">MonoDETR</th><td>0.33</td><td>1.73</td><td>0.28</td><td>0.70</td><td>21.34</td></tr>
-<tr class="ours"><th scope="row">GEMO3D <span class="ours-tag" data-en="ours" data-zh="本文">ours</span></th><td><strong>0.27</strong></td><td>2.12</td><td><strong>0.25</strong></td><td><strong>0.82</strong></td><td>31.12</td></tr>
-</tbody></table></div>
-<div class="chart-grid"><figure><img alt="3D center error by depth for four methods" height="303" loading="lazy" src="assets/center-error.webp" width="479"/></figure><figure><img alt="BEV IoU by depth for four methods" height="303" loading="lazy" src="assets/bev-iou.webp" width="480"/></figure></div>
-<p class="figure-note" data-en="5 m depth bins; error bars are the stored 95% confidence intervals of the mean." data-zh="以 5 公尺為一組；誤差棒為統計檔記錄的平均值 95% 信賴區間。">5 m depth bins; error bars are the stored 95% confidence intervals of the mean.</p>
+<p class="figure-note" data-en="Blue: GEMO3D. Bird’s-eye view: orange dashed ground truth, 1 m grid. Error bars: 95% CI over 5 m depth bins." data-zh="藍色為 GEMO3D；鳥瞰圖橘色虛線為真值，網格 1 公尺。誤差棒為 5 公尺深度區間的 95% 信賴區間。">Blue: GEMO3D. Bird’s-eye view: orange dashed ground truth, 1 m grid. Error bars: 95% CI over 5 m depth bins.</p>
 <div class="data-links"><a data-en="Evaluation summary (CSV)" data-zh="評估統計（CSV）" download="" href="assets/data/overall.csv">Evaluation summary (CSV)</a><a data-en="Results by depth (CSV)" data-zh="各深度結果（CSV）" download="" href="assets/data/depth-bins.csv">Results by depth (CSV)</a></div>
-<p class="figure-note" data-en="CSV files are the stored full-precision summaries; recomputed values can differ from the manuscript table in the second decimal." data-zh="CSV 為完整精度的統計檔；重算數值與論文表格可能在小數第二位有差異。">CSV files are the stored full-precision summaries; recomputed values can differ from the manuscript table in the second decimal.</p>
 </section>
 
 <!-- ================= CITATION ================= -->

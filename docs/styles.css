@@ -250,7 +250,31 @@ a:focus-visible,button:focus-visible,.table-scroll:focus-visible{outline:3px sol
 .section.model .energy-note{font-size:12.5px;line-height:1.6;margin:10px 0 0;color:#9fb0cf}
 .model .compensation-figure{max-width:640px;margin:0 auto}
 
+/* ---------------- condensed layout ---------------- */
+.loops{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.loop-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 10px 30px rgba(20,40,80,.05)}
+.loop-card video{aspect-ratio:1280/548;object-fit:contain;background:#f3f6fa}
+.loop-card figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 10px;margin-top:10px;font-family:"Space Grotesk","Noto Sans TC",sans-serif;font-weight:700;font-size:15px;color:var(--ink)}
+.loop-card .step-no{width:26px;height:26px;border-radius:8px;font-size:14px}
+.loop-card .eq{font-size:15px;padding:4px 10px;font-weight:400}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:0 auto 26px}
+.flow>span{padding:7px 14px;border-radius:999px;font-size:14px;color:#e6edf9;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16)}
+.flow i{font-style:normal;color:#8fb4ff}
+.model .model-eq{margin:0 auto 26px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.facts>div{padding:18px;border-radius:16px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+.facts strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:36px;line-height:1.1;background:linear-gradient(90deg,#8fb4ff,#c4a2ff,#8fe0d6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.facts span{display:block;margin-top:4px;font-size:14px;color:#c9d5ea;line-height:1.5}
+.facts small{font-size:12px;color:#9fb0cf}
+.model{padding-bottom:60px}
+.chart-grid.three{grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.chart-grid.three figure{display:flex;flex-direction:column;justify-content:space-between}
+.chart-grid.three figcaption{margin-top:6px;font-size:13px}
+#results .qual-grid{margin-top:6px}
+#results .figure-note{margin-top:14px}
+
 @media(max-width:820px){
+  .loops,.chart-grid.three,.facts{grid-template-columns:1fr}
   .why-grid,.energy-wrap{grid-template-columns:1fr}
   .build-steps{grid-template-columns:1fr 1fr}
   .qual-grid{grid-template-columns:1fr}
