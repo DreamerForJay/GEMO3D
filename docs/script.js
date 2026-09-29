@@ -1,16 +1,3 @@
-const languageButton = document.getElementById('language');
-let language = 'en';
-languageButton.addEventListener('click', () => {
-  language = language === 'en' ? 'zh' : 'en';
-  document.documentElement.lang = language === 'zh' ? 'zh-Hant' : 'en';
-  document.querySelectorAll('[data-en][data-zh]').forEach(element => {
-    element.innerHTML = element.dataset[language];
-  });
-  languageButton.textContent = language === 'en' ? '繁中' : 'EN';
-  languageButton.setAttribute('aria-label', language === 'en' ? 'Switch to Traditional Chinese' : 'Switch to English');
-  document.getElementById('copyStatus').textContent = '';
-});
-
 const imageCompare = document.getElementById('imageCompare');
 const compareRange = document.getElementById('compareRange');
 const rearImage = document.getElementById('rearImage');
@@ -69,9 +56,21 @@ document.getElementById('copyBib').addEventListener('click', async () => {
   clearTimeout(copyTimer);
   try {
     await navigator.clipboard.writeText(document.getElementById('bibtex').textContent);
-    status.textContent = language === 'en' ? 'Copied' : '已複製';
+    status.textContent = 'Copied';
   } catch {
-    status.textContent = language === 'en' ? 'Select the citation text to copy.' : '請選取引用文字複製。';
+    status.textContent = 'Select the citation text to copy.';
   }
   copyTimer = setTimeout(() => { status.textContent = ''; }, 2500);
 });
+
+// Play the silent method loops only while they are on screen.
+const loops = document.querySelectorAll('video[autoplay][muted]');
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.play().catch(() => {});
+      else entry.target.pause();
+    });
+  }, { threshold: 0.25 });
+  loops.forEach(video => observer.observe(video));
+}

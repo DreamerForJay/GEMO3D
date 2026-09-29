@@ -28,15 +28,6 @@ figure,h1,h2,h3,p{margin:0}
 .skip{position:absolute;top:8px;left:-9999px;background:#fff;padding:10px;z-index:20}
 .skip:focus{left:10px}
 
-/* language toggle */
-.lang-toggle{
-  position:fixed;top:16px;right:18px;z-index:10;
-  border:1px solid var(--line);background:rgba(255,255,255,.88);backdrop-filter:blur(8px);
-  color:var(--ink);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;
-  box-shadow:0 4px 14px rgba(20,30,50,.08)
-}
-.lang-toggle:hover{border-color:#b9c3d6}
-
 /* ---------------- hero ---------------- */
 .hero{position:relative;overflow:hidden;text-align:center;padding:72px 0 30px;isolation:isolate}
 .hero-glow{
@@ -83,11 +74,7 @@ h1{margin:0 auto;max-width:960px;font-family:"Space Grotesk","Noto Sans TC",sans
   box-shadow:0 0 0 1px rgba(20,30,50,.06),0 28px 60px rgba(20,40,80,.18)
 }
 .yt-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.tldr{max-width:860px;margin:28px auto 0;font-size:18px;line-height:1.7;color:#2c3440}
-.tldr b{
-  font-family:"Space Grotesk",sans-serif;margin-right:6px;
-  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent
-}
+.tldr{max-width:860px;margin:30px auto 0;font-size:19px;line-height:1.7;color:#2c3440;font-weight:500}
 .highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:860px;margin:26px auto 0}
 .highlights>div{padding:18px 12px;border-radius:14px;background:var(--grad-soft);border:1px solid #e3e7f3}
 .highlights strong{
@@ -131,6 +118,8 @@ figcaption{max-width:860px;margin-inline:auto}
   background:var(--grad-soft);border:1px solid #e3e7f3;border-radius:10px;padding:10px 16px;white-space:nowrap
 }
 .eq sub{font-size:.62em;font-style:normal}
+.hat{position:relative;display:inline-block}
+.hat::after{content:"^";position:absolute;left:.08em;right:0;top:-.42em;text-align:center;font-style:normal;font-size:.85em}
 video.loop{width:100%;border-radius:12px;background:#eef2f6}
 .compensation-figure{max-width:620px;margin:44px auto 0}
 .compensation-figure img{margin:auto;width:100%;max-width:579px}

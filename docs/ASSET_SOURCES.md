@@ -28,13 +28,11 @@ the English SVG plots (requires Matplotlib). Points use `depth_center`,
 Depth RMSE uses `rmse_from_zero`; yaw, 3D center error and BEV IoU use `mean`.
 The website rounds the full-precision values to two decimal places.
 
-The old HTML table had small discrepancies relative to this CSV. The new table
-explicitly identifies its localization metrics as recomputed from these stored
-summaries. For example, MonoDETR yaw error is 1.79° (previous HTML: 1.73°),
-MonoDGP depth RMSE is 1.41 m (previous HTML: 1.40 m), and both MonoAMNet and
-MonoDGP BEV IoUs round to 0.47 (previous HTML: 0.46). FPS values remain those
-reported on the original page, measured separately on 100 images. These CSV
-results should not be described as a verbatim reproduction of the paper table.
+The results table on the page uses the values from the CVGIP 2026 manuscript
+table (at the author's request, so the page matches the paper and the overview
+video). The CSV summaries above are recomputed at full precision and can differ
+in the second decimal (e.g. MonoAMNet/MonoDGP BEV IoU 0.465/0.466 vs. 0.46 in
+the paper; MonoDETR yaw 1.79° vs. 1.73°). The page notes this under the CSV links.
 
 ## Qualitative examples
 
