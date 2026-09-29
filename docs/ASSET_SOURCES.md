@@ -56,6 +56,15 @@ reconstruct the 165-object evaluation set from the currently available pair
 files. `assets/data/examples.json` records the selected poses and calibration.
 SVG files embed their RGB image, so they do not depend on local absolute paths.
 
+## Rank-1 ratio model section
+
+`assets/zerr-angle.webp` (manuscript Fig. 4) and `assets/rank1-a.webp`,
+`rank1-b.webp`, `rank1-c.webp` (manuscript Fig. 5 a–c) are the original figure
+images extracted from `CVGIP2026_GEMO3D論文.docx`, converted to WebP without
+editing. The equations, the Blender data-generation description and the singular
+values / energy ratios (Table 1: Compact 5.157/0.682, 95.11%; Sedan 7.633/0.658,
+98.55%; SUV 6.226/0.370, 98.94%) are copied from manuscript sections 3.3.3–3.3.4.
+
 ## Overview video and method animations
 
 The overview video is hosted on YouTube (https://youtu.be/WyC59Sddipc). It was
