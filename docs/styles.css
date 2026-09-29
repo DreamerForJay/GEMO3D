@@ -456,6 +456,12 @@ video{
 #video{
   padding-top:55px
 }
+.intro-video{
+  margin-bottom:34px
+}
+.intro-video video{
+  aspect-ratio:16/9
+}
 .citation{
   padding-bottom:60px
 }
