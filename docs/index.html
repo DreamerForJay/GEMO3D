@@ -47,13 +47,13 @@
 <figure class="teaser-video">
 <div class="yt-frame"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/WyC59Sddipc?rel=0" title="GEMO3D project overview video"></iframe></div>
 </figure>
-<p class="tldr"><b class="tldr-tag">TL;DR</b> <span data-en="GEMO3D lifts a single RGB image to a 3D vehicle box by correcting pinhole depth with a class-specific &lt;b&gt;rank-1 SVD model of the projection-height ratio&lt;/b&gt; — three 1-D curves per vehicle class, learned offline from virtual scenes, with no ground-truth depth needed at inference." data-zh="GEMO3D 以單張 RGB 影像重建車輛 3D 框：用依車型建立的&lt;b&gt; Rank-1 SVD 投影高度比例模型&lt;/b&gt;修正針孔初始深度——每種車型只需三條一維曲線，離線由虛擬場景學得，推論時不需要真值深度。">GEMO3D lifts a single RGB image to a 3D vehicle box by correcting pinhole depth with a class-specific <b>rank-1 SVD model of the projection-height ratio</b> — three 1-D curves per vehicle class, learned offline from virtual scenes, with no ground-truth depth needed at inference.</span></p>
+<p class="tldr"><b class="tldr-tag">TL;DR</b> <span data-en="GEMO3D turns a single RGB image into a 3D vehicle box by correcting pinhole depth with a class-specific &lt;b&gt;rank-1 projection-height ratio model&lt;/b&gt;." data-zh="GEMO3D 以依車型建立的&lt;b&gt; Rank-1 投影高度比例模型&lt;/b&gt;修正針孔深度，從單張 RGB 影像重建車輛 3D 框。">GEMO3D turns a single RGB image into a 3D vehicle box by correcting pinhole depth with a class-specific <b>rank-1 projection-height ratio model</b>.</span></p>
 <div class="highlights">
-<div><strong>0.25<small> m</small></strong><span data-en="mean 3D center error" data-zh="平均 3D 中心誤差">mean 3D center error</span></div>
-<div><strong>0.82</strong><span data-en="mean BEV IoU" data-zh="平均 BEV IoU">mean BEV IoU</span></div>
-<div><strong>31<small> FPS</small></strong><span data-en="on an RTX 3060" data-zh="RTX 3060 推論速度">on an RTX 3060</span></div>
+<div><strong>0.25<small> m</small></strong><span data-en="mean 3D center error" data-zh="平均 3D 中心誤差">mean 3D center error</span><em class="delta" data-en="↓ 11% vs. next best" data-zh="較次佳方法降低 11%">↓ 11% vs. next best</em></div>
+<div><strong>0.82</strong><span data-en="mean BEV IoU" data-zh="平均 BEV IoU">mean BEV IoU</span><em class="delta" data-en="↑ 17% vs. next best" data-zh="較次佳方法提升 17%">↑ 17% vs. next best</em></div>
+<div><strong>31<small> FPS</small></strong><span data-en="on an RTX 3060" data-zh="RTX 3060 推論速度">on an RTX 3060</span><em class="delta neutral" data-en="2nd fastest of four" data-zh="四種方法中第二快">2nd fastest of four</em></div>
 </div>
-<p class="highlight-note" data-en="165 CARLA vehicles matched by all four compared methods." data-zh="CARLA 場景中四種比較方法皆成功配對的 165 輛車。">165 CARLA vehicles matched by all four compared methods.</p>
+<p class="highlight-note" data-en="165 CARLA vehicles matched by all four compared methods · next best: MonoDETR." data-zh="CARLA 場景中四種比較方法皆成功配對的 165 輛車 · 次佳方法：MonoDETR。">165 CARLA vehicles matched by all four compared methods · next best: MonoDETR.</p>
 </div>
 </header>
 

@@ -94,6 +94,8 @@ h1{margin:0 auto;max-width:960px;font-family:"Space Grotesk","Noto Sans TC",sans
 .highlights small{font-size:.5em;letter-spacing:0}
 .highlights span{display:block;margin-top:4px;font-size:14px;color:var(--muted)}
 .highlight-note{margin-top:10px;font-size:13px;color:var(--muted)}
+.highlights .delta{display:inline-block;margin-top:8px;padding:2px 9px;border-radius:999px;font-size:12px;font-style:normal;font-weight:600;color:#0b7f7b;background:rgba(14,159,154,.1)}
+.highlights .delta.neutral{color:var(--muted);background:rgba(107,116,131,.1)}
 
 /* ---------------- sections ---------------- */
 .section{padding-top:64px;padding-bottom:26px;scroll-margin-top:20px}
@@ -173,8 +175,11 @@ thead span{font-weight:400;color:var(--muted)}
 tbody th{font-weight:500;color:var(--ink)}
 tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
 .ours{background:var(--grad-soft)}
+.ours th,.ours td{border-top:1px solid rgba(31,85,200,.25);border-bottom:1px solid rgba(31,85,200,.25)}
+.ours th{box-shadow:inset 4px 0 0 var(--blue)}
+.ours td{color:var(--ink)}
 .ours th{font-weight:700}
-.ours strong{color:var(--blue)}
+.ours strong{color:var(--blue);font-weight:800}
 .ours-tag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:600;color:#fff;background:var(--grad);vertical-align:2px}
 .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .chart-grid figure{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff}
