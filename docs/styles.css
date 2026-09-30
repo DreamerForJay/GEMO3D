@@ -92,6 +92,7 @@ h1{margin:0 auto;max-width:960px;font-family:"Space Grotesk","Noto Sans TC",sans
   background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent
 }
 .highlights small{font-size:.5em;letter-spacing:0}
+.highlights .count{font-weight:inherit}
 .highlights span{display:block;margin-top:4px;font-size:14px;color:var(--muted)}
 .highlight-note{margin-top:10px;font-size:13px;color:var(--muted)}
 .highlights .delta{display:inline-block;margin-top:8px;padding:2px 9px;border-radius:999px;font-size:12px;font-style:normal;font-weight:600;color:#0b7f7b;background:rgba(14,159,154,.1)}
