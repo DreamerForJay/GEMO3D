@@ -263,7 +263,7 @@ a:focus-visible,button:focus-visible,.table-scroll:focus-visible{outline:3px sol
 .model .model-eq{margin:0 auto 26px}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
 .facts>div{padding:18px;border-radius:16px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
-.facts strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:36px;line-height:1.1;background:linear-gradient(90deg,#8fb4ff,#c4a2ff,#8fe0d6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.facts strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:36px;line-height:1.1;background:linear-gradient(90deg,#8fb4ff,#c4a2ff,#8fe0d6);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
 .facts span{display:block;margin-top:4px;font-size:14px;color:#c9d5ea;line-height:1.5}
 .facts small{font-size:12px;color:#9fb0cf}
 .model{padding-bottom:60px}

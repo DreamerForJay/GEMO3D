@@ -87,3 +87,37 @@ if ('IntersectionObserver' in window) {
   }, { threshold: 0.25 });
   loops.forEach(video => observer.observe(video));
 }
+
+// Count the key figures up from zero the first time they scroll into view.
+const counters = document.querySelectorAll('[data-count]');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if ('IntersectionObserver' in window && !reduceMotion) {
+  const format = (element, value) => {
+    const decimals = Number(element.dataset.decimals || 0);
+    return `${element.dataset.prefix || ''}${value.toFixed(decimals)}${element.dataset.suffix || ''}`;
+  };
+  const run = element => {
+    const target = Number(element.dataset.count);
+    const duration = 1400;
+    let start;
+    const step = now => {
+      start ??= now;
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = format(element, target * eased);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      counterObserver.unobserve(entry.target);
+      run(entry.target);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(element => {
+    element.textContent = format(element, 0);
+    counterObserver.observe(element);
+  });
+}
