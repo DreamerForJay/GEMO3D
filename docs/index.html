@@ -51,9 +51,9 @@
 <div class="highlights">
 <div><strong><b class="count" data-count="0.25" data-decimals="2">0.25</b><small> m</small></strong><span data-en="mean 3D center error" data-zh="平均 3D 中心誤差">mean 3D center error</span><em class="delta" data-en="↓ 11% vs. next best" data-zh="較次佳方法降低 11%">↓ 11% vs. next best</em></div>
 <div><strong><b class="count" data-count="0.82" data-decimals="2">0.82</b></strong><span data-en="mean BEV IoU" data-zh="平均 BEV IoU">mean BEV IoU</span><em class="delta" data-en="↑ 17% vs. next best" data-zh="較次佳方法提升 17%">↑ 17% vs. next best</em></div>
-<div><strong><b class="count" data-count="31">31</b><small> FPS</small></strong><span data-en="on an RTX 3060" data-zh="RTX 3060 推論速度">on an RTX 3060</span><em class="delta neutral" data-en="2nd fastest of four" data-zh="四種方法中第二快">2nd fastest of four</em></div>
+<div><strong><b class="count" data-count="31.12" data-decimals="2">31.12</b><small> FPS</small></strong><span data-en="on an RTX 3060" data-zh="RTX 3060 推論速度">on an RTX 3060</span><em class="delta neutral" data-en="2nd fastest of four" data-zh="四種方法中第二快">2nd fastest of four</em></div>
 </div>
-<p class="highlight-note" data-en="165 CARLA vehicles matched by all four compared methods · next best: MonoDETR." data-zh="CARLA 場景中四種比較方法皆成功配對的 165 輛車 · 次佳方法：MonoDETR。">165 CARLA vehicles matched by all four compared methods · next best: MonoDETR.</p>
+<p class="highlight-note" data-en="165 matched vehicle instances in CARLA evaluated by all four methods · next best: MonoDETR." data-zh="CARLA 場景中四種方法皆成功配對的 165 筆車輛實例 · 次佳方法：MonoDETR。">165 matched vehicle instances in CARLA evaluated by all four methods · next best: MonoDETR.</p>
 </div>
 </header>
 
@@ -86,7 +86,7 @@
 <span data-en="Blender renders" data-zh="Blender 虛擬場景">Blender renders</span><i>→</i><span data-en="ratio matrix R&lt;sub&gt;c&lt;/sub&gt;(θ, Z)" data-zh="比例矩陣 R&lt;sub&gt;c&lt;/sub&gt;(θ, Z)">ratio matrix R<sub>c</sub>(θ, Z)</span><i>→</i><span data-en="center per angle" data-zh="依角度中心化">center per angle</span><i>→</i><span data-en="rank-1 SVD ≈ σ&lt;sub&gt;1&lt;/sub&gt;u&lt;sub&gt;1&lt;/sub&gt;v&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;T&lt;/sup&gt;" data-zh="Rank-1 SVD ≈ σ&lt;sub&gt;1&lt;/sub&gt;u&lt;sub&gt;1&lt;/sub&gt;v&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;T&lt;/sup&gt;">rank-1 SVD ≈ σ<sub>1</sub>u<sub>1</sub>v<sub>1</sub><sup>T</sup></span>
 </div>
 <div class="model-eq">
-<div class="eq-hero"><i>r</i><sub>c</sub>(θ, Z) = <span class="t t1">b<sub>c</sub>(θ)</span> + <span class="t t2">a<sub>c</sub>(θ)</span> · <span class="t t3">C<sub>c</sub>(ρ<sub>c</sub>(Z))</span></div>
+<div class="eq-hero"><i>r̂</i><sub>c</sub>(θ, Z) = <span class="t t1">b<sub>c</sub>(θ)</span> + <span class="t t2">a<sub>c</sub>(θ)</span> · <span class="t t3">C<sub>c</sub>(ρ<sub>c</sub>(Z))</span></div>
 <div class="eq-legend">
 <span class="l1"><b data-en="angle baseline" data-zh="角度基準項">angle baseline</b></span>
 <span class="l2"><b data-en="angle amplitude" data-zh="角度振幅">angle amplitude</b><span>σ<sub>1</sub>u<sub>1</sub></span></span>
@@ -100,7 +100,7 @@
 </div>
 <div class="facts">
 <div><strong data-count="95" data-prefix="&gt; " data-suffix="%">&gt; 95%</strong><span data-en="energy kept by rank-1&lt;br/&gt;&lt;small&gt;Compact 95.11 · Sedan 98.55 · SUV 98.94&lt;/small&gt;" data-zh="Rank-1 保留的能量&lt;br/&gt;&lt;small&gt;Compact 95.11 · Sedan 98.55 · SUV 98.94&lt;/small&gt;">energy kept by rank-1<br/><small>Compact 95.11 · Sedan 98.55 · SUV 98.94</small></span></div>
-<div><strong data-count="3">3</strong><span data-en="1-D curves stored per vehicle class" data-zh="每種車型只需三條一維曲線">1-D curves stored per vehicle class</span></div>
+<div><strong data-count="3">3</strong><span data-en="1-D curves per modeled vehicle class" data-zh="每種已建模車型的三條一維曲線">1-D curves per modeled vehicle class</span></div>
 <div><strong data-count="100" data-suffix="%">100%</strong><span data-en="synthetic data for the ratio model&lt;br/&gt;&lt;small&gt;Blender renders · no real-road 3D labels&lt;/small&gt;" data-zh="比例模型皆以合成資料擬合&lt;br/&gt;&lt;small&gt;Blender 渲染 · 不需真實道路 3D 標註&lt;/small&gt;">synthetic data for the ratio model<br/><small>Blender renders · no real-road 3D labels</small></span></div>
 </div>
 </div></section>
@@ -108,14 +108,14 @@
 <!-- ================= RESULTS ================= -->
 <section class="section shell" id="results">
 <h2 data-en="Results" data-zh="實驗結果">Results</h2>
-<p class="section-intro" data-en="165 vehicles in a CARLA sequence, matched by GEMO3D, MonoAMNet, MonoDGP and MonoDETR." data-zh="CARLA 序列中四種方法皆成功配對的 165 輛車。">165 vehicles in a CARLA sequence, matched by GEMO3D, MonoAMNet, MonoDGP and MonoDETR.</p>
+<p class="section-intro" data-en="165 matched vehicle instances in a CARLA sequence, detected by GEMO3D, MonoAMNet, MonoDGP and MonoDETR." data-zh="CARLA 序列中四種方法皆成功配對的 165 筆車輛實例。">165 matched vehicle instances in a CARLA sequence, detected by GEMO3D, MonoAMNet, MonoDGP and MonoDETR.</p>
 <div aria-label="Quantitative comparison" class="table-scroll" role="region" tabindex="0"><table>
 <caption><span data-en="Values from the CVGIP 2026 manuscript. FPS measured separately on 100 images (RTX 3060 12 GB). Best in bold." data-zh="數值取自 CVGIP 2026 論文；FPS 另以 100 張影像測量（RTX 3060 12 GB）。粗體為最佳值。">Values from the CVGIP 2026 manuscript. FPS measured separately on 100 images (RTX 3060 12 GB). Best in bold.</span></caption>
-<thead><tr><th data-en="Method" data-zh="方法" scope="col">Method</th><th data-en="Depth RMSE&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="深度 RMSE&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">Depth RMSE<br/><span>(m) ↓</span></th><th data-en="Yaw error&lt;br&gt;&lt;span&gt;(°) ↓&lt;/span&gt;" data-zh="朝向誤差&lt;br&gt;&lt;span&gt;（度）↓&lt;/span&gt;" scope="col">Yaw error<br/><span>(°) ↓</span></th><th data-en="3D center error&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="3D 中心誤差&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">3D center error<br/><span>(m) ↓</span></th><th scope="col">BEV IoU<br/><span>↑</span></th><th scope="col">FPS<br/><span>↑</span></th></tr></thead>
-<tbody><tr><th scope="row">MonoAMNet</th><td>5.58</td><td>18.97</td><td>2.76</td><td>0.46</td><td><strong>40.23</strong></td></tr>
-<tr><th scope="row">MonoDGP</th><td>1.40</td><td><strong>1.23</strong></td><td>1.25</td><td>0.46</td><td>24.71</td></tr>
-<tr><th scope="row">MonoDETR</th><td>0.33</td><td>1.73</td><td>0.28</td><td>0.70</td><td>21.34</td></tr>
-<tr class="ours"><th scope="row">GEMO3D <span class="ours-tag" data-en="ours" data-zh="本文">ours</span></th><td><strong>0.27</strong></td><td>2.12</td><td><strong>0.25</strong></td><td><strong>0.82</strong></td><td>31.12</td></tr>
+<thead><tr><th data-en="Method" data-zh="方法" scope="col">Method</th><th data-en="Mean depth bias&lt;br&gt;&lt;span&gt;(m)&lt;/span&gt;" data-zh="平均深度偏差&lt;br&gt;&lt;span&gt;（公尺）&lt;/span&gt;" scope="col">Mean depth bias<br/><span>(m)</span></th><th data-en="Depth RMSE&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="深度 RMSE&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">Depth RMSE<br/><span>(m) ↓</span></th><th data-en="Yaw error&lt;br&gt;&lt;span&gt;(°) ↓&lt;/span&gt;" data-zh="朝向誤差&lt;br&gt;&lt;span&gt;（度）↓&lt;/span&gt;" scope="col">Yaw error<br/><span>(°) ↓</span></th><th data-en="3D center error&lt;br&gt;&lt;span&gt;(m) ↓&lt;/span&gt;" data-zh="3D 中心誤差&lt;br&gt;&lt;span&gt;（公尺）↓&lt;/span&gt;" scope="col">3D center error<br/><span>(m) ↓</span></th><th scope="col">BEV IoU<br/><span>↑</span></th><th scope="col">FPS<br/><span>↑</span></th></tr></thead>
+<tbody><tr><th scope="row">MonoAMNet</th><td>−2.29</td><td>5.58</td><td>18.97</td><td>2.76</td><td>0.46</td><td><strong>40.23</strong></td></tr>
+<tr><th scope="row">MonoDGP</th><td>−1.22</td><td>1.40</td><td><strong>1.23</strong></td><td>1.25</td><td>0.46</td><td>24.71</td></tr>
+<tr><th scope="row">MonoDETR</th><td>−0.02</td><td>0.33</td><td>1.73</td><td>0.28</td><td>0.70</td><td>21.34</td></tr>
+<tr class="ours"><th scope="row">GEMO3D <span class="ours-tag" data-en="ours" data-zh="本文">ours</span></th><td>−0.06</td><td><strong>0.27</strong></td><td>2.12</td><td><strong>0.25</strong></td><td><strong>0.82</strong></td><td>31.12</td></tr>
 </tbody></table></div>
 <div class="chart-grid three">
 <figure><img alt="Depth error before and after compensation" height="383" loading="lazy" src="assets/compensation.webp" width="579"/><figcaption data-en="Depth error, raw vs. compensated" data-zh="補償前後的深度誤差">Depth error, raw vs. compensated</figcaption></figure>
@@ -144,6 +144,9 @@
 </div>
 </div>
 <p class="figure-note" data-en="Blue: GEMO3D. Bird’s-eye view: orange dashed ground truth, 1 m grid. Error bars: 95% CI over 5 m depth bins." data-zh="藍色為 GEMO3D；鳥瞰圖橘色虛線為真值，網格 1 公尺。誤差棒為 5 公尺深度區間的 95% 信賴區間。">Blue: GEMO3D. Bird’s-eye view: orange dashed ground truth, 1 m grid. Error bars: 95% CI over 5 m depth bins.</p>
+<p class="figure-note" data-en="The 10, 20 and 30 m examples come from an available 128-instance common-pair subset; the quantitative table and depth plots use the 165-instance evaluation." data-zh="10、20、30 公尺範例取自目前可用的 128 筆共同配對子集；定量表格與深度圖使用 165 筆評估樣本。">The 10, 20 and 30 m examples come from an available 128-instance common-pair subset; the quantitative table and depth plots use the 165-instance evaluation.</p>
+<p class="figure-note" data-en="The table reproduces the manuscript. Downloadable CSV summaries were recomputed separately from the 165 matched instances; some values differ, including MonoDETR yaw error (paper 1.73°, CSV 1.79°)." data-zh="表格照錄論文數值；下載的 CSV 由 165 筆共同樣本另行重算，部分數值不同，例如 MonoDETR 朝向誤差（論文 1.73°、CSV 1.79°）。">The table reproduces the manuscript. Downloadable CSV summaries were recomputed separately from the 165 matched instances; some values differ, including MonoDETR yaw error (paper 1.73°, CSV 1.79°).</p>
+<p class="figure-note" data-en="Evaluation scope: a CARLA bidirectional-road scenario. Pinhole initialization assumes a level camera and road; severe occlusion, small distant boxes, class errors, slopes and camera pitch remain limitations or future work." data-zh="評估範圍為 CARLA 雙向道路場景。針孔初始深度假設相機與道路水平；嚴重遮擋、遠距小框、車型誤判、坡度與相機俯仰角仍屬限制或未來工作。">Evaluation scope: a CARLA bidirectional-road scenario. Pinhole initialization assumes a level camera and road; severe occlusion, small distant boxes, class errors, slopes and camera pitch remain limitations or future work.</p>
 <div class="data-links"><a data-en="Evaluation summary (CSV)" data-zh="評估統計（CSV）" download="" href="assets/data/overall.csv">Evaluation summary (CSV)</a><a data-en="Results by depth (CSV)" data-zh="各深度結果（CSV）" download="" href="assets/data/depth-bins.csv">Results by depth (CSV)</a></div>
 </section>
 
