@@ -185,6 +185,8 @@ tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
 .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .chart-grid figure{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff}
 .chart-grid img{width:100%}
+.limitations{max-width:860px;margin:28px auto 0;padding:16px 20px;border-left:3px solid var(--blue);border-radius:0 12px 12px 0;background:var(--grad-soft);font-size:14px;line-height:1.7;color:var(--text);text-align:left}
+.limitations b{color:var(--ink)}
 .data-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:13px}
 
 /* citation */
