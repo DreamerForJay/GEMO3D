@@ -22,8 +22,8 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="styles.css?v=20261004-limitations" rel="stylesheet"/>
-<script defer="" src="script.js?v=4837912"></script>
+<link href="styles.css?v=20261102-media-viewer" rel="stylesheet"/>
+<script defer="" src="script.js?v=20261102-media-viewer"></script>
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
@@ -159,5 +159,19 @@
 </section>
 </main>
 <footer class="shell"><p>GEMO3D · CVGIP 2026</p><p class="credits">Page design inspired by <a href="https://siang1105.github.io/JanusMesh.github.io/">JanusMesh</a>, <a href="https://johnnylu305.github.io/df3dv1k_web/">DF3DV-1K</a>, <a href="https://shigon255.github.io/brdfusion-page/">BRDFusion</a>, <a href="https://linjohnss.github.io/scal3r/">Scal3R</a> and <a href="https://qft-333.github.io/moge3page/">MoGe-3</a>.</p></footer>
+<div aria-labelledby="mediaViewerTitle" aria-modal="true" class="media-viewer" hidden id="mediaViewer" role="dialog">
+<div class="media-viewer__bar">
+<div>
+<strong data-en="Media viewer" data-zh="媒體檢視器" id="mediaViewerTitle">Media viewer</strong>
+<span data-en="Click the image to toggle actual size" data-zh="點擊圖片切換原始尺寸" id="mediaViewerHint">Click the image to toggle actual size</span>
+</div>
+<button aria-label="Close media viewer" class="media-viewer__close" data-en="Close" data-zh="關閉" id="mediaViewerClose" type="button">Close</button>
+</div>
+<div class="media-viewer__stage" id="mediaViewerStage">
+<img alt="" hidden id="mediaViewerImage"/>
+<video controls hidden id="mediaViewerVideo" loop muted playsinline></video>
+</div>
+<p class="media-viewer__caption" id="mediaViewerCaption"></p>
+</div>
 </body>
 </html>
