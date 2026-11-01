@@ -22,7 +22,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="styles.css?v=20261102-media-viewer" rel="stylesheet"/>
+<link href="styles.css?v=20261102-chart-refresh" rel="stylesheet"/>
 <script defer="" src="script.js?v=20261102-media-viewer"></script>
 </head>
 <body id="top">
@@ -94,9 +94,9 @@
 </div>
 </div>
 <div class="fig5">
-<figure class="model-card"><img alt="Angle amplitude a(theta) for three vehicle types" height="307" loading="lazy" src="assets/rank1-a.webp" width="462"/><figcaption>(a) a<sub>c</sub>(θ)</figcaption></figure>
-<figure class="model-card"><img alt="Angle baseline b(theta) for three vehicle types" height="305" loading="lazy" src="assets/rank1-b.webp" width="459"/><figcaption>(b) b<sub>c</sub>(θ)</figcaption></figure>
-<figure class="model-card"><img alt="Shared depth basis C(rho(Z)) for three vehicle types" height="302" loading="lazy" src="assets/rank1-c.webp" width="455"/><figcaption>(c) C<sub>c</sub>(ρ<sub>c</sub>(Z))</figcaption></figure>
+<figure class="model-card"><img alt="Angle amplitude a(theta) for three vehicle types" height="1200" loading="lazy" src="assets/rank1-a.webp" width="1800"/><figcaption>(a) a<sub>c</sub>(θ)</figcaption></figure>
+<figure class="model-card"><img alt="Angle baseline b(theta) for three vehicle types" height="1200" loading="lazy" src="assets/rank1-b.webp" width="1800"/><figcaption>(b) b<sub>c</sub>(θ)</figcaption></figure>
+<figure class="model-card"><img alt="Shared depth basis C(rho(Z)) for three vehicle types" height="1200" loading="lazy" src="assets/rank1-c.webp" width="1800"/><figcaption>(c) C<sub>c</sub>(ρ<sub>c</sub>(Z))</figcaption></figure>
 </div>
 <div class="facts">
 <div><strong data-count="95" data-prefix="&gt; " data-suffix="%">&gt; 95%</strong><span data-en="energy kept by rank-1&lt;br/&gt;&lt;small&gt;Compact 95.11 · Sedan 98.55 · SUV 98.94&lt;/small&gt;" data-zh="Rank-1 保留的能量&lt;br/&gt;&lt;small&gt;Compact 95.11 · Sedan 98.55 · SUV 98.94&lt;/small&gt;">energy kept by rank-1<br/><small>Compact 95.11 · Sedan 98.55 · SUV 98.94</small></span></div>
@@ -117,8 +117,9 @@
 <tr><th scope="row">MonoDETR</th><td><strong>−0.02</strong></td><td>0.33</td><td>1.73</td><td>0.28</td><td>0.70</td><td>21.34</td></tr>
 <tr class="ours"><th scope="row">GEMO3D <span class="ours-tag" data-en="ours" data-zh="本文">ours</span></th><td>−0.06</td><td><strong>0.27</strong></td><td>2.12</td><td><strong>0.25</strong></td><td><strong>0.82</strong></td><td>31.12</td></tr>
 </tbody></table></div>
-<div class="chart-grid three">
+<div class="chart-grid four">
 <figure><img alt="Depth error before and after compensation" height="383" loading="lazy" src="assets/compensation.webp" width="579"/><figcaption data-en="Depth error, raw vs. compensated" data-zh="補償前後的深度誤差">Depth error, raw vs. compensated</figcaption></figure>
+<figure><img alt="Mean depth bias by ground-truth depth for four methods" height="1200" loading="lazy" src="assets/depth-bias.webp" width="1902"/><figcaption data-en="Mean depth bias by depth → 0" data-zh="各深度平均深度偏差 → 0">Mean depth bias by depth → 0</figcaption></figure>
 <figure><img alt="3D center error by depth for four methods" height="303" loading="lazy" src="assets/center-error.webp" width="479"/><figcaption data-en="3D center error by depth ↓" data-zh="各深度 3D 中心誤差 ↓">3D center error by depth ↓</figcaption></figure>
 <figure><img alt="BEV IoU by depth for four methods" height="303" loading="lazy" src="assets/bev-iou.webp" width="480"/><figcaption data-en="BEV IoU by depth ↑" data-zh="各深度 BEV IoU ↑">BEV IoU by depth ↑</figcaption></figure>
 </div>
